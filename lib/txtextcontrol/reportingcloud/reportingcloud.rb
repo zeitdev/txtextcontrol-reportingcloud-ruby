@@ -1,6 +1,7 @@
 require "uri"
 require "net/http"
 require "json"
+#require_relative "../reportingcloud.rb"
 
 module TXTextControl
   module ReportingCloud
@@ -8,15 +9,18 @@ module TXTextControl
       attr_accessor :username
       attr_accessor :password
       attr_accessor :uri
+      attr_accessor :apiVersion
       
-      def initialize(username, password, url)
+      def initialize(username, password, url = nil)
+        url ||= DEFAULT_BASE_URI
         @username = username
         @password = password
+        @apiVersion = DEFAULT_VERSION        
         @uri = URI.parse(url)
       end
       
       def listTemplates
-        res = get("/v1/templates/list")
+        res = get("/templates/list")
         if res.kind_of? Net::HTTPSuccess
           tmplNames = Array.new
           data = JSON.parse(res.body, object_class: OpenStruct)
@@ -30,7 +34,7 @@ module TXTextControl
       end
       
       def getTemplateCount
-        res = get("/v1/templates/count")
+        res = get("/templates/count")
         if res.kind_of? Net::HTTPSuccess
           return Integer(res.body)
         else
@@ -39,7 +43,7 @@ module TXTextControl
       end
       
       def getAccountSettings
-        res = get("v1/account/settings")
+        res = get("/account/settings")
         if res.kind_of? Net::HTTPSuccess
           
         else 
@@ -49,7 +53,7 @@ module TXTextControl
       private
       def get(requestUri)
         http = Net::HTTP.new(@uri.host, @uri.port)
-        req = Net::HTTP::Get.new(requestUri, initheader = { "Content-Type" => "application/json" })
+        req = Net::HTTP::Get.new("/#{@apiVersion}#{requestUri}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
         return http.request(req)
       end
