@@ -1,7 +1,7 @@
 require "uri"
 require "net/http"
 require "json"
-#require_relative "../reportingcloud.rb"
+require "ostruct"
 
 module TXTextControl
   module ReportingCloud
