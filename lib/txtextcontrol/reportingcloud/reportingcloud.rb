@@ -60,7 +60,7 @@ module TXTextControl
       # @param append [Boolean]  
       # @return [Array<String>] An array of the created documents as 
       #         Base64 encoded strings. 
-      def merge(mergeBody, templateName = nil, returnFormat = :pdf, append = true)
+      def merge(mergeBody, templateName = nil, returnFormat = :pdf, append = false)
         if !templateName.nil? && !mergeBody.template.nil?
           raise ArgumentError, "Template name and template data must not be present at the same time."
         end
@@ -123,6 +123,7 @@ module TXTextControl
       # Performs a HTTP request of a given type.
       # @param requestType [Symbol] The type of the request. Possible values are :get, 
       # :post and :delete.
+      # @param params [Hash] The query parameters.
       # @return [Net::HTTPResponse] The HTTP response.
       private
       def request(requestUri, requestType = :get, params = nil, body = nil)
