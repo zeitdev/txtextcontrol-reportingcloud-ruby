@@ -1,6 +1,8 @@
+require "txtextcontrol/reportingcloud/hashable"
+
 module TXTextControl
   module ReportingCloud
-    class MergeSettings
+    class MergeSettings < Hashable
       attr_accessor :removeEmptyFields
       attr_accessor :removeEmptyBlocks
       attr_accessor :removeEmptyImages

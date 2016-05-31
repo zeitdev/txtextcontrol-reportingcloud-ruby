@@ -22,7 +22,7 @@ module TXTextControl
       end
       
       # Lists all templates from the template storage.
-      # return [Array<Template>] An array of Template objects.
+      # @return [Array<Template>] An array of Template objects.
       def listTemplates
         res = request("/templates/list", :get)
         if res.kind_of? Net::HTTPSuccess
@@ -48,6 +48,39 @@ module TXTextControl
         end
       end
       
+      # Merges and returns a template from the template storage or an 
+      # uploaded template with JSON data.
+      # @param returnFormat [Symbol] The format of the created document. Possible 
+      #        values are :pdf, :rtf, :doc, :docx, :html and :tx.
+      # @param mergeBody [MergeBody] The MergeBody object contains the datasource 
+      #        as a JSON data object and optionally, a template encoded as a Base64 string.
+      # @param templateName [String] The name of the template in the template storage. 
+      #        If no template name is specified, the template must be uploaded in the 
+      #        MergeBody object of this request.
+      # @param append [Boolean]  
+      # @return [Array<String>] An array of the created documents as 
+      #         Base64 encoded strings. 
+      def merge(mergeBody, templateName = nil, returnFormat = :pdf, append = true)
+        if !templateName.nil? && !mergeBody.template.nil?
+          raise ArgumentError, "Template name and template data must not be present at the same time."
+        end
+        params = {
+          "returnFormat" => returnFormat,
+          "append" => append
+        }
+        unless templateName.nil? 
+          params["templateName"] = templateName
+        end
+        res = request("/document/merge", :post, params, mergeBody)
+        if res.kind_of? Net::HTTPSuccess
+          # DEBUG
+          puts res
+          # ToDo: implement
+        else
+          raise res.body 
+        end        
+      end
+      
       # Returns the account settings.
       # @return [AccountSettings] The account settings.
       def getAccountSettings
@@ -57,7 +90,7 @@ module TXTextControl
         else
           raise res.body 
         end
-      end
+      end      
       
       # Returns a list of thumbnails of a specific template.
       # @param templateName [String] The filename of the template in the template storage.
@@ -94,7 +127,7 @@ module TXTextControl
       # :post and :delete.
       # @return [Net::HTTPResponse] The HTTP response.
       private
-      def request(requestUri, requestType = :get, params = nil)
+      def request(requestUri, requestType = :get, params = nil, body = nil)
         # Generate query string from given parameters
         queryString = queryStringFromHash(params)
         
@@ -112,9 +145,14 @@ module TXTextControl
           else raise "Unknown HTTP request type."
         end 
         
-        # Send HTTP request
+        # Create HTTP request
         req = reqType.new("/#{@apiVersion}#{requestUri}#{queryString}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
+        # If body data is present, convert to json and set request body 
+        if !body.nil? && body.respond_to?(:to_hash)
+          req.body = body.to_hash.to_json
+        end
+        # Send request
         return http.request(req)
       end
       
