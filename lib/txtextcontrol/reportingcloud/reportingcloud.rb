@@ -25,12 +25,12 @@ module TXTextControl
       def listTemplates
         res = get("/templates/list")
         if res.kind_of? Net::HTTPSuccess
-          tmplNames = Array.new
+          templates = Array.new
           data = JSON.parse(res.body, object_class: OpenStruct)
           data.each do |elem|
-            tmplNames.push(Template.new(elem.Filename, elem.Modified))
+            templates.push(Template.new(elem.Filename, elem.Modified))
           end
-          return tmplNames
+          return templates
         else
           raise res.body
         end

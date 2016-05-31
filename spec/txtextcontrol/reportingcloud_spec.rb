@@ -51,4 +51,3 @@ describe "#getTemplateCount" do
   end
 end
 
-describe "" 
