@@ -1,11 +1,13 @@
+require 'date'
+
 module TXTextControl
   module ReportingCloud
     class Template
-      attr_reader :fileName
+      attr_reader :templateName
       attr_reader :modified
       
-      def initialize(fileName, modified)
-        @fileName = fileName
+      def initialize(templateName, modified)
+        @templateName = templateName
         if modified.is_a?(DateTime)
           @modified = modified
         else

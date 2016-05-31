@@ -29,7 +29,7 @@ module TXTextControl
           templates = Array.new
           data = JSON.parse(res.body, object_class: OpenStruct)
           data.each do |elem|
-            templates.push(Template.new(elem.Filename, elem.Modified))
+            templates.push(Template.new(elem.templateName, elem.modified))
           end
           return templates
         else
@@ -37,6 +37,8 @@ module TXTextControl
         end
       end
       
+      # Returns the number of templates in the template storage.
+      # @return [Integer] The number of templates in the template storage.
       def getTemplateCount
         res = request("/templates/count", :get)
         if res.kind_of? Net::HTTPSuccess
@@ -46,6 +48,8 @@ module TXTextControl
         end
       end
       
+      # Returns the account settings.
+      # @return [AccountSettings] The account settings.
       def getAccountSettings
         res = request("/account/settings", :get)
         if res.kind_of? Net::HTTPSuccess
