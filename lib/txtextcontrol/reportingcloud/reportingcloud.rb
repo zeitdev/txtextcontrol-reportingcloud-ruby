@@ -73,9 +73,7 @@ module TXTextControl
         end
         res = request("/document/merge", :post, params, mergeBody)
         if res.kind_of? Net::HTTPSuccess
-          # DEBUG
-          puts res
-          # ToDo: implement
+          return JSON.parse(res.body)
         else
           raise res.body 
         end        
