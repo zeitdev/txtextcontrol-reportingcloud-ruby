@@ -26,9 +26,9 @@ module TXTextControl
         res = get("/templates/list")
         if res.kind_of? Net::HTTPSuccess
           tmplNames = Array.new
-          data = JSON.parse(res.body)
+          data = JSON.parse(res.body, object_class: OpenStruct)
           data.each do |elem|
-            tmplNames.push(Template.new(elem["Filename"], elem["Modified"]))
+            tmplNames.push(Template.new(elem.Filename, elem.Modified))
           end
           return tmplNames
         else
