@@ -8,8 +8,13 @@ module TXTextControl
       attr_reader :maxTemplates
       attr_reader :validUntil
       
-      def initialize(serialNumber, createdDocuments, uploadedTemplates, maxDocuments, maxTemplates, validUntil)
-        # ToDo: implement
+      def initialize(serialNumber, createdDocuments, uploadedTemplates, maxDocuments, maxTemplates, validUntil = nil)
+        @serialNumber = serialNumber
+        @createdDocuments = createdDocuments
+        @uploadedTemplates = uploadedTemplates
+        @maxDocuments = maxDocuments
+        @maxTemplates = maxTemplates
+        @validUntil = validUntil
       end
     end
   end

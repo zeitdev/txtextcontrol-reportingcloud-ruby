@@ -2,6 +2,7 @@ require "uri"
 require "net/http"
 require "json"
 require "ostruct"
+require "cgi"
 require 'txtextcontrol/reportingcloud/template'
 
 module TXTextControl
@@ -9,15 +10,15 @@ module TXTextControl
     class ReportingCloud
       attr_accessor :username
       attr_accessor :password
-      attr_accessor :uri
+      attr_accessor :baseUri
       attr_accessor :apiVersion
             
-      def initialize(username, password, url = nil)
-        url ||= DEFAULT_BASE_URI
+      def initialize(username, password, baseUrl = nil)
+        baseUrl ||= DEFAULT_BASE_URI
         @username = username
         @password = password
         @apiVersion = DEFAULT_VERSION        
-        @uri = URI.parse(url)
+        @baseUri = URI.parse(baseUrl)
       end
       
       # Lists all templates from the template storage.
@@ -63,29 +64,42 @@ module TXTextControl
       # @param imageFormat [Symbol] Defines the image format of the returned thumbnails.
       #        Possible values are :png, :jpg, :gif and :bmp.
       # @return [Array<String>] An array of Base64 encoded images.
-      def getTemplateThumbnails(temlateName, zoomFactor, fromPage = 1, toPage = 0, imageformat = :png)
-        res = get("/templates/thumbnails")
+      def getTemplateThumbnails(temlateName, zoomFactor, fromPage = 1, toPage = 0, imageFormat = :png)
+        params = {
+          "templateName" => temlateName,
+          "zoomFactor" => zoomFactor,
+          "fromPage" => fromPage,
+          "toPage" => toPage,
+        }
+        if imageFormat != :png
+          params["imageFormat"] = imageFormat 
+        end
+        res = get("/templates/thumbnails", params)
         if res.kind_of? Net::HTTPSuccess
-          # ToDo: implement
+          return JSON.parse(res.body)
         else
           raise res.body 
         end        
       end
       
       private
-      def get(requestUri)
-        http = Net::HTTP.new(@uri.host, @uri.port)
-        req = Net::HTTP::Get.new("/#{@apiVersion}#{requestUri}", initheader = { "Content-Type" => "application/json" })
+      def get(requestUri, params = nil)
+        # Generate query string from given parameters
+        queryString = ""
+        queryString = "?" + params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&') unless params.nil?
+        # Send HTTP request
+        http = Net::HTTP.new(@baseUri.host, @baseUri.port)
+        req = Net::HTTP::Get.new("/#{@apiVersion}#{requestUri}#{queryString}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
         return http.request(req)
       end
       
       private
       def delete(requestUri)
-        http = Net::HTTP.new(@uri.host, @uri.port)
+        http = Net::HTTP.new(@baseUri.host, @baseUri.port)
         req = Net::HTTP::Delete.new("/#{@apiVersion}#{requestUri}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
-        return http.request(req)      
+        return http.request(req)    
       end
       
     end
