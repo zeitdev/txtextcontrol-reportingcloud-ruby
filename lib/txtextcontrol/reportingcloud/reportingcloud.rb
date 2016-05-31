@@ -24,7 +24,7 @@ module TXTextControl
       # Lists all templates from the template storage.
       # return [Array<Template>] An array of Template objects.
       def listTemplates
-        res = get("/templates/list")
+        res = request("/templates/list", :get)
         if res.kind_of? Net::HTTPSuccess
           templates = Array.new
           data = JSON.parse(res.body, object_class: OpenStruct)
@@ -38,7 +38,7 @@ module TXTextControl
       end
       
       def getTemplateCount
-        res = get("/templates/count")
+        res = request("/templates/count", :get)
         if res.kind_of? Net::HTTPSuccess
           return Integer(res.body)
         else
@@ -47,7 +47,7 @@ module TXTextControl
       end
       
       def getAccountSettings
-        res = get("/account/settings")
+        res = request("/account/settings", :get)
         if res.kind_of? Net::HTTPSuccess
           # ToDo: implement
         else
@@ -64,9 +64,10 @@ module TXTextControl
       # @param imageFormat [Symbol] Defines the image format of the returned thumbnails.
       #        Possible values are :png, :jpg, :gif and :bmp.
       # @return [Array<String>] An array of Base64 encoded images.
-      def getTemplateThumbnails(temlateName, zoomFactor, fromPage = 1, toPage = 0, imageFormat = :png)
+      def getTemplateThumbnails(templateName, zoomFactor, fromPage = 1, toPage = 0, imageFormat = :png)
+        # Prepare query parameters
         params = {
-          "templateName" => temlateName,
+          "templateName" => templateName,
           "zoomFactor" => zoomFactor,
           "fromPage" => fromPage,
           "toPage" => toPage,
@@ -74,32 +75,50 @@ module TXTextControl
         if imageFormat != :png
           params["imageFormat"] = imageFormat 
         end
-        res = get("/templates/thumbnails", params)
+        
+        # Send request
+        res = request("/templates/thumbnails", :get, params)
         if res.kind_of? Net::HTTPSuccess
           return JSON.parse(res.body)
         else
-          raise res.body 
+          raise res.body
         end        
       end
       
+      # Performs a HTTP request of a given type.
+      # @param requestType [Symbol] The type of the request. Possible values are :get, 
+      # :post and :delete.
+      # @return [Net::HTTPResponse] The HTTP response.
       private
-      def get(requestUri, params = nil)
+      def request(requestUri, requestType = :get, params = nil)
         # Generate query string from given parameters
-        queryString = ""
-        queryString = "?" + params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&') unless params.nil?
-        # Send HTTP request
+        queryString = queryStringFromHash(params)
+        
         http = Net::HTTP.new(@baseUri.host, @baseUri.port)
-        req = Net::HTTP::Get.new("/#{@apiVersion}#{requestUri}#{queryString}", initheader = { "Content-Type" => "application/json" })
+        
+        # Get correct request type
+        reqType = nil
+        case requestType
+          when :get
+            reqType = Net::HTTP::Get
+          when :post
+            reqType = Net::HTTP::Post
+          when :delete 
+            reqType = Net::HTTP::Delete
+          else raise "Unknown HTTP request type."
+        end 
+        
+        # Send HTTP request
+        req = reqType.new("/#{@apiVersion}#{requestUri}#{queryString}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
         return http.request(req)
       end
       
+      # Generates a query string from a hash
       private
-      def delete(requestUri)
-        http = Net::HTTP.new(@baseUri.host, @baseUri.port)
-        req = Net::HTTP::Delete.new("/#{@apiVersion}#{requestUri}", initheader = { "Content-Type" => "application/json" })
-        req.basic_auth(@username, @password);
-        return http.request(req)    
+      def queryStringFromHash(hash)
+        return "?" + hash.collect { |k, v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&') unless hash.nil?
+        return ""
       end
       
     end
