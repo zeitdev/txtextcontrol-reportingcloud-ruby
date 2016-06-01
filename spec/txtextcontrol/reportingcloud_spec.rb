@@ -97,7 +97,7 @@ describe "#merge" do
     @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
   end
 
-  it "generates two documents" do
+  it "generates PDF documents" do
     # Get request body from file
     request_body = File.open(File.dirname(__FILE__) + '/../support/fixtures/merge_request_body.json', 'rb') { |f| f.read }
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/merge_result_two_pdfs.json'    
@@ -150,5 +150,41 @@ describe "#merge" do
     expect(data[1].ord).to be(0x50)
     expect(data[2].ord).to be(0x44)
     expect(data[3].ord).to be(0x46)
+  end
+  
+  describe "#getAccountSettings" do
+    before do
+      @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
+    end
+
+    it "gets trial settings" do
+      canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_account_settings_trial.json'
+      stub_request(:get, "api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
+      
+      as = @r.getAccountSettings
+
+      # Check attributes
+      expect(as.serialNumber).to be(:trial)
+      expect(as.createdDocuments).to be(7)
+      expect(as.uploadedTemplates).to be(2)
+      expect(as.maxDocuments).to be(30000)
+      expect(as.maxTemplates).to be(100)
+      expect(as.validUntil).to be(nil)
+    end    
+
+    it "gets paid version settings" do
+      canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_account_settings_sn.json'
+      stub_request(:get, "api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
+      
+      as = @r.getAccountSettings
+
+      # Check attributes
+      expect(as.serialNumber).to eq("3546372837463")
+      expect(as.createdDocuments).to be(7)
+      expect(as.uploadedTemplates).to be(2)
+      expect(as.maxDocuments).to be(30000)
+      expect(as.maxTemplates).to be(100)
+      expect(as.validUntil).to eq(DateTime.iso8601("2016-05-30T12:07:45"))
+    end    
   end
 end

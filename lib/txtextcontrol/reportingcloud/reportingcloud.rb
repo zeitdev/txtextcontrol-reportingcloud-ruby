@@ -4,6 +4,7 @@ require "json"
 require "ostruct"
 require "cgi"
 require 'txtextcontrol/reportingcloud/template'
+require 'txtextcontrol/reportingcloud/account_settings'
 
 module TXTextControl
   module ReportingCloud
@@ -51,15 +52,15 @@ module TXTextControl
       # Merges and returns a template from the template storage or an 
       # uploaded template with JSON data.
       # @param returnFormat [Symbol] The format of the created document. Possible 
-      #        values are :pdf, :rtf, :doc, :docx, :html and :tx.
+      #   values are :pdf, :rtf, :doc, :docx, :html and :tx.
       # @param mergeBody [MergeBody] The MergeBody object contains the datasource 
-      #        as a JSON data object and optionally, a template encoded as a Base64 string.
+      #   as a JSON data object and optionally, a template encoded as a Base64 string.
       # @param templateName [String] The name of the template in the template storage. 
-      #        If no template name is specified, the template must be uploaded in the 
-      #        MergeBody object of this request.
+      #   If no template name is specified, the template must be uploaded in the 
+      #   MergeBody object of this request.
       # @param append [Boolean]  
       # @return [Array<String>] An array of the created documents as 
-      #         Base64 encoded strings. 
+      #   Base64 encoded strings. 
       def merge(mergeBody, templateName = nil, returnFormat = :pdf, append = false)
         if !templateName.to_s.empty? && !mergeBody.template.nil?   # .to_s.empty: check for nil or ''
           raise ArgumentError, "Template name and template data must not be present at the same time."
@@ -76,7 +77,7 @@ module TXTextControl
           params["templateName"] = templateName
         end
         
-        # 
+        # Send request
         res = request("/document/merge", :post, params, mergeBody)
         if res.kind_of? Net::HTTPSuccess
           return JSON.parse(res.body)
@@ -90,7 +91,7 @@ module TXTextControl
       def getAccountSettings
         res = request("/account/settings", :get)
         if res.kind_of? Net::HTTPSuccess
-          # ToDo: implement
+          return AccountSettings.from_hash(JSON.parse(res.body))
         else
           raise res.body 
         end
@@ -99,11 +100,11 @@ module TXTextControl
       # Returns a list of thumbnails of a specific template.
       # @param templateName [String] The filename of the template in the template storage.
       # @param zoomFactor [Integer] An Integer value between 1 and 400 to set the
-      #        percentage zoom factor of the created thumbnail images.
+      #   percentage zoom factor of the created thumbnail images.
       # @param fromPage [Integer] An Integer value that specifies the first page.
       # @param toPage [Integer] An Integer value that specifies the last page.
       # @param imageFormat [Symbol] Defines the image format of the returned thumbnails.
-      #        Possible values are :png, :jpg, :gif and :bmp.
+      #   Possible values are :png, :jpg, :gif and :bmp.
       # @return [Array<String>] An array of Base64 encoded images.
       def getTemplateThumbnails(templateName, zoomFactor, fromPage = 1, toPage = 0, imageFormat = :png)
         # Prepare query parameters
