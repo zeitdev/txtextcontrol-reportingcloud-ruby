@@ -6,6 +6,7 @@ require "cgi"
 require 'txtextcontrol/reportingcloud/template'
 require 'txtextcontrol/reportingcloud/account_settings'
 require 'txtextcontrol/reportingcloud/template_name_validator'
+require 'txtextcontrol/reportingcloud/template_data_validator'
 
 module TXTextControl
   module ReportingCloud
@@ -149,8 +150,7 @@ module TXTextControl
       def uploadTemplate(templateName, templateData)
         # Parameter validation
         TemplateNameValidator.validate(templateName)
-        raise ArgumentError, "Template data must be a Base64 encoded string." if !templateData.kind_of? String
-        raise ArgumentError, "No template data given." if templateData.to_s.empty?
+        TemplateDataValidator.validate(templateData)
         
         res = request("/templates/upload", :post, { :templateName => templateName }, templateData)
         unless res.kind_of? Net::HTTPSuccess
@@ -188,6 +188,29 @@ module TXTextControl
         else
           raise res.body
         end        
+      end
+      
+      # Converts a document to another format.
+      # @param templateData [String] The source document encoded as a Base64 string. 
+      #   The supported formats are ??? (ToDo: list possible source document formats) 
+      # @param returnFormat [Symbol] The format of the created document.
+      #   Possible values are: :pdf, :rtf, :doc, :docx, :html and :tx.
+      # @return [String] The created document encoded as a Base64 string.
+      def convert(templateData, returnFormat = :pdf)
+        # Parameter validation
+        TemplateDataValidator.validate(templateData)
+        
+        res = request("/document/convert", :post, { :returnFormat => returnFormat }, templateData)
+        if res.kind_of? Net::HTTPSuccess
+          # Awkwardly remove leading and trailing quote from string 
+          # (inexplicably JSON.parse chokes on simple strings)
+          result = res.body
+          result[0] = ''
+          result[result.length - 1] = ''
+          return result
+        else
+          raise res.body 
+        end                
       end
       
       # Performs a HTTP request of a given type.
