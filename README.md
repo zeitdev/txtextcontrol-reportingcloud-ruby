@@ -1,3 +1,5 @@
+![Logo](https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-php/master/resource/rc_logo_512.png)
+
 # TXTextControl::ReportingCloud
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/txtextcontrol/reportingcloud`. To experiment with that code, run `bin/console` for an interactive prompt.
