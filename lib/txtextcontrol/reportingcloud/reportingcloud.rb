@@ -61,16 +61,22 @@ module TXTextControl
       # @return [Array<String>] An array of the created documents as 
       #         Base64 encoded strings. 
       def merge(mergeBody, templateName = nil, returnFormat = :pdf, append = false)
-        if !templateName.nil? && !mergeBody.template.nil?
+        if !templateName.to_s.empty? && !mergeBody.template.nil?   # .to_s.empty: check for nil or ''
           raise ArgumentError, "Template name and template data must not be present at the same time."
+        elsif templateName.to_s.empty? && mergeBody.template.nil?
+          raise ArgumentError, "Either a template name or template data have to be present."
         end
+        
+        # Create query parameters
         params = {
           "returnFormat" => returnFormat,
           "append" => append
         }
-        unless templateName.nil? 
+        unless templateName.to_s.empty? 
           params["templateName"] = templateName
         end
+        
+        # 
         res = request("/document/merge", :post, params, mergeBody)
         if res.kind_of? Net::HTTPSuccess
           return JSON.parse(res.body)
