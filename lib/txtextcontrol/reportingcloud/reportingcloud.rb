@@ -141,10 +141,29 @@ module TXTextControl
         end
       end
       
+      # Stores an uploaded template in the template storage (*.doc, *.docx, *.rtf and *.tx)
+      # @param [String] templateName The filename of the template in the template storage.
+      #   Existing files with the same filename will be overwritten.
+      # @param [String] templateData A document encoded as a Base64 string. 
+      #   The supported formats are DOC, DOCX, RTF and TX.
+      def uploadTemplate(templateName, templateData)
+        # Parameter validation
+        raise ArgumentError, "Template name must be a String." if !templateName.kind_of? String 
+        raise ArgumentError, "No template name given." if templateName.to_s.empty?
+        raise ArgumentError, "Template data must be a Base64 encoded string." if !templateData.kind_of? String
+        raise ArgumentError, "No template data given." if templateData.to_s.empty?
+        
+        res = request("/templates/upload", :post, { :templateName => templateName }, templateData)
+        unless res.kind_of? Net::HTTPSuccess
+          raise res.body 
+        end        
+      end
+      
       # Performs a HTTP request of a given type.
       # @param requestType [Symbol] The type of the request. Possible values are :get, 
       # :post and :delete.
       # @param params [Hash] The query parameters.
+      # @param body [Object, Hash, String] 
       # @return [Net::HTTPResponse] The HTTP response.
       private
       def request(requestUri, requestType = :get, params = nil, body = nil)
@@ -168,9 +187,16 @@ module TXTextControl
         # Create HTTP request
         req = reqType.new("/#{@apiVersion}#{requestUri}#{queryString}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
-        # If body data is present, convert to json and set request body 
-        if !body.nil? && body.respond_to?(:to_hash)
-          req.body = body.to_hash.to_json
+        # If body data is present, use it directly if it is a string or 
+        # convert it to json and set request body
+        if !body.nil?
+          if body.kind_of? String
+            req.body = body
+          elsif body.kind_of? Hash
+            req.body = body.to_json
+          elsif body.respond_to?(:to_hash)
+            req.body = body.to_hash.to_json
+          end
         end
         # Send request
         return http.request(req)
