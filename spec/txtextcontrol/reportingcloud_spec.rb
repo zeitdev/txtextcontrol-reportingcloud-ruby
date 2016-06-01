@@ -71,7 +71,7 @@ describe "#getTemplateThumbnails" do
     stub_request(:get, "api.reporting.cloud/v1/templates/thumbnails?templateName=new_template.docx&zoomFactor=25&fromPage=1&toPage=0").to_return(:body => canned_response)
     
     thumbnails = @r.getTemplateThumbnails("new_template.docx", 25, 1, 0)
-    data = Base64.decode64(thumbnails[0]);
+    data = Base64.strict_decode64(thumbnails[0]);
     # Check for PNG magic number
     expect(data[0].ord).to be(0x89)
     expect(data[1].ord).to be(0x50)
@@ -85,7 +85,7 @@ describe "#getTemplateThumbnails" do
     stub_request(:get, "api.reporting.cloud/v1/templates/thumbnails?templateName=new_template.docx&zoomFactor=25&fromPage=1&toPage=0&imageFormat=jpg").to_return(:body => canned_response)
     
     thumbnails = @r.getTemplateThumbnails("new_template.docx", 25, 1, 0, :jpg)
-    data = Base64.decode64(thumbnails[0])
+    data = Base64.strict_decode64(thumbnails[0])
     # Check for JPG magic number
     expect(data[0].ord).to be(0xFF)
     expect(data[1].ord).to be(0xD8)
@@ -143,7 +143,7 @@ describe "#merge" do
       
     mb = TXTextControl::ReportingCloud::MergeBody.new(mergeData)
     mergeRes = @r.merge(mb, "sample_invoice.tx")
-    data = Base64.decode64(mergeRes[0])
+    data = Base64.strict_decode64(mergeRes[0])
     
     # Check for PDF magic number
     expect(data[0].ord).to be(0x25)
@@ -186,5 +186,7 @@ describe "#getAccountSettings" do
     expect(as.maxDocuments).to be(30000)
     expect(as.maxTemplates).to be(100)
     expect(as.validUntil).to eq(DateTime.iso8601("2016-05-30T12:07:45"))
-  end    
+  end
 end
+
+describe "#"

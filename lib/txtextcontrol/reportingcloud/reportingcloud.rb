@@ -191,7 +191,7 @@ module TXTextControl
         # convert it to json and set request body
         if !body.nil?
           if body.kind_of? String
-            req.body = body
+            req.body = "\"" + body + "\""
           elsif body.kind_of? Hash
             req.body = body.to_json
           elsif body.respond_to?(:to_hash)
