@@ -5,6 +5,7 @@ require "ostruct"
 require "cgi"
 require 'txtextcontrol/reportingcloud/template'
 require 'txtextcontrol/reportingcloud/account_settings'
+require 'txtextcontrol/reportingcloud/template_name_validator'
 
 module TXTextControl
   module ReportingCloud
@@ -132,8 +133,7 @@ module TXTextControl
       #   from the template storage.
       def deleteTemplate(templateName)
         # Parameter validation
-        raise ArgumentError, "Template name must be a String." if !templateName.kind_of? String 
-        raise ArgumentError, "No template name given." if templateName.to_s.empty?
+        TemplateNameValidator.validate(templateName)
         
         res = request("/templates/delete", :delete, { :templateName => templateName })
         unless res.kind_of? Net::HTTPSuccess
@@ -148,8 +148,7 @@ module TXTextControl
       #   The supported formats are DOC, DOCX, RTF and TX.
       def uploadTemplate(templateName, templateData)
         # Parameter validation
-        raise ArgumentError, "Template name must be a String." if !templateName.kind_of? String 
-        raise ArgumentError, "No template name given." if templateName.to_s.empty?
+        TemplateNameValidator.validate(templateName)
         raise ArgumentError, "Template data must be a Base64 encoded string." if !templateData.kind_of? String
         raise ArgumentError, "No template data given." if templateData.to_s.empty?
         
@@ -166,13 +165,28 @@ module TXTextControl
       #   the template storage.
       def templateExists?(templateName)
         # Parameter validation
-        raise ArgumentError, "Template name must be a String." if !templateName.kind_of? String 
-        raise ArgumentError, "No template name given." if templateName.to_s.empty?
+        TemplateNameValidator.validate(templateName)
 
         res = request("/templates/exists", :get, { :templateName => templateName })                       
         if res.kind_of? Net::HTTPBadRequest then return false
         elsif res.kind_of? Net::HTTPSuccess then return true
         else raise res.body 
+        end        
+      end
+      
+      # Returns the number of pages of a template in the template storage.
+      # @param templateName [String] The filename of the template in the template
+      #   storage to retrieve the number of pages for.
+      # @return [Integer] The number of pages in the template.
+      def getTemplatePageCount(templateName)
+        # Parameter validation
+        TemplateNameValidator.validate(templateName)
+        
+        res = request("/templates/pagecount", :get, { :templateName => templateName })
+        if res.kind_of? Net::HTTPSuccess
+          return Integer(res.body)
+        else
+          raise res.body
         end        
       end
       
