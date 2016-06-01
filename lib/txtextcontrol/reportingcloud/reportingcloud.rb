@@ -30,7 +30,7 @@ module TXTextControl
           templates = Array.new
           data = JSON.parse(res.body, object_class: OpenStruct)
           data.each do |elem|
-            templates.push(Template.new(elem.templateName, elem.modified))
+            templates.push(Template.new(elem.templateName, elem.modified, elem.size))
           end
           return templates
         else
@@ -70,11 +70,11 @@ module TXTextControl
         
         # Create query parameters
         params = {
-          "returnFormat" => returnFormat,
-          "append" => append
+          :returnFormat => returnFormat,
+          :append => append
         }
         unless templateName.to_s.empty? 
-          params["templateName"] = templateName
+          params[:templateName] = templateName
         end
         
         # Send request
@@ -109,13 +109,13 @@ module TXTextControl
       def getTemplateThumbnails(templateName, zoomFactor, fromPage = 1, toPage = 0, imageFormat = :png)
         # Prepare query parameters
         params = {
-          "templateName" => templateName,
-          "zoomFactor" => zoomFactor,
-          "fromPage" => fromPage,
-          "toPage" => toPage,
+          :templateName => templateName,
+          :zoomFactor => zoomFactor,
+          :fromPage => fromPage,
+          :toPage => toPage,
         }
         if imageFormat != :png
-          params["imageFormat"] = imageFormat 
+          params[:imageFormat] = imageFormat 
         end
         
         # Send request
@@ -142,9 +142,9 @@ module TXTextControl
       end
       
       # Stores an uploaded template in the template storage (*.doc, *.docx, *.rtf and *.tx)
-      # @param [String] templateName The filename of the template in the template storage.
+      # @param templateName [String] The filename of the template in the template storage.
       #   Existing files with the same filename will be overwritten.
-      # @param [String] templateData A document encoded as a Base64 string. 
+      # @param templateData [String] A document encoded as a Base64 string. 
       #   The supported formats are DOC, DOCX, RTF and TX.
       def uploadTemplate(templateName, templateData)
         # Parameter validation
@@ -156,6 +156,23 @@ module TXTextControl
         res = request("/templates/upload", :post, { :templateName => templateName }, templateData)
         unless res.kind_of? Net::HTTPSuccess
           raise res.body 
+        end        
+      end
+      
+      # Checks whether a template exists in the template storage.
+      # @param templateName [String] The filename of the template to be 
+      #   checked for availability in the template storage.
+      # @return [Boolean] Returns if the template with the given name exists in
+      #   the template storage.
+      def templateExists?(templateName)
+        # Parameter validation
+        raise ArgumentError, "Template name must be a String." if !templateName.kind_of? String 
+        raise ArgumentError, "No template name given." if templateName.to_s.empty?
+
+        res = request("/templates/exists", :get, { :templateName => templateName })                       
+        if res.kind_of? Net::HTTPBadRequest then return false
+        elsif res.kind_of? Net::HTTPSuccess then return true
+        else raise res.body 
         end        
       end
       

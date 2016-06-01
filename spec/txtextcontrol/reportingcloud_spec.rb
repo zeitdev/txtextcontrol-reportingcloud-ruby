@@ -40,6 +40,16 @@ describe "#listTemplates" do
     expect(templates[1].modified).to eq(DateTime.iso8601("2016-05-24T15:24:57")) 
     expect(templates[2].modified).to eq(DateTime.iso8601("2016-05-26T15:24:57"))     
   end
+  
+  it "contains expected file sizes" do
+    canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
+    stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
+    
+    templates = @r.listTemplates
+    expect(templates[0].size).to be(3705)    
+    expect(templates[1].size).to be(34845)    
+    expect(templates[2].size).to be(34212)    
+  end
 end
 
 describe "#getTemplateCount" do
@@ -108,8 +118,8 @@ describe "#merge" do
     # Some dummy merge data
     mergeData = [
       {
-        "billto_name" => "Testy McTest",
-        "recipient_name" => "Hans Musterfrau",
+        "billto_name" => "Will Ferrell",
+        "recipient_name" => "Colin Farrell",
         "item" => [        
           {
             "item_no" => 23,
@@ -124,8 +134,8 @@ describe "#merge" do
         ]
       },
       {
-        "billto_name" => "Hans Musterfrau",
-        "recipient_name" => "Testy McTest",
+        "billto_name" => "Morgan Freeman",
+        "recipient_name" => "Martin Freeman",
         "item" => [        
           {
             "item_no" => 45,
@@ -189,4 +199,4 @@ describe "#getAccountSettings" do
   end
 end
 
-describe "#"
+describe "#uploadTemplate"
