@@ -127,6 +127,20 @@ module TXTextControl
         end        
       end
       
+      # Deletes a template from the template storage.
+      # @param templateName [String] The filename of the template to be deleted 
+      #   from the template storage.
+      def deleteTemplate(templateName)
+        # Parameter validation
+        raise ArgumentError, "Template name must be a String." if !templateName.kind_of? String 
+        raise ArgumentError, "No template name given." if templateName.to_s.empty?
+        
+        res = request("/templates/delete", :delete, { :templateName => templateName })
+        unless res.kind_of? Net::HTTPSuccess
+          raise res.body 
+        end
+      end
+      
       # Performs a HTTP request of a given type.
       # @param requestType [Symbol] The type of the request. Possible values are :get, 
       # :post and :delete.

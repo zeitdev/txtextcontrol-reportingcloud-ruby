@@ -13,7 +13,8 @@ module TXTextControl
     #   created per month.
     # @attr_reader [Integer] maxTemplates The maximum number of templates that can be 
     #   uploaded to the template storage.
-    # @attr_reader [DateTime] validUntil The date until the current subscription is valid.
+    # @attr_reader [DateTime, nil] validUntil The date until the current subscription is valid.
+    #   Can be nil.
     class AccountSettings
       attr_reader :serialNumber
       attr_reader :createdDocuments
@@ -45,6 +46,9 @@ module TXTextControl
         end
       end
       
+      # Creates an AccountSettings instance from a hash.
+      # @param [Hash] hash The hash to try and create an AccountSettings instance from.
+      # @return [AccountSettings] A newly created AccountSettings instance.
       def self.from_hash(hash)
         sn = hash["serialNumber"]
         cd = hash["createdDocuments"]
