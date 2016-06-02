@@ -3,12 +3,12 @@ require "txtextcontrol/reportingcloud/merge_settings"
 module TXTextControl
   module ReportingCloud
   
-    # ...
-    # @athor T. Kummerow
-    # @attr_accessor merge_data [Array<Hash>] The merge data.
-    # @attr_accessor template [String, nil] Base64 encoded template document.
+    # Used to pass data to the merge method.
+    # @author Thorsten Kummerow
+    # @attr merge_data [Array<Hash>] The merge data. Must be an array of hashes.
+    # @attr template [String] Base64 encoded template document.
     #   Supported formats are RTF, DOC, DOCX and TX. 
-    # @attr_accessor merge_settings [MergeSettings, nil] Merge settings to specify 
+    # @attr merge_settings [MergeSettings] Merge settings to specify 
     #   merge properties and document properties such as title and 
     #   author.
     class MergeBody
@@ -18,9 +18,9 @@ module TXTextControl
       
       # The constructor.
       # @param merge_data [Array<Hash>] The merge data. Must be an array of hashes.
-      # @param template [String, nil] Base64 encoded template document.
+      # @param template [String] Base64 encoded template document.
       #   Supported formats are RTF, DOC, DOCX and TX.
-      # @param merge_settings [MergeSettings, nil] Merge settings to specify 
+      # @param merge_settings [MergeSettings] Merge settings to specify 
       #   merge properties and document properties such as title and 
       #   author.
       def initialize(merge_data, merge_settings = nil, template = nil)

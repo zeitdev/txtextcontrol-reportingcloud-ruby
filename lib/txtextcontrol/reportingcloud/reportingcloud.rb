@@ -11,13 +11,26 @@ require 'core_ext/string'
 
 module TXTextControl
   module ReportingCloud
+  
+    # @author Thorsten Kummerow
+    # @attr username [String] The user name.
+    # @attr password [String] The password.
+    # @attr base_uri [String] The API base url. Is set to "http://api.reporting.cloud" 
+    #   by default.
+    # @attr api_version [String] The API version. Is set to "v1" by default.
+    # @attr read_timeout [Integer] The timeout for HTTP requests in seconds. Is set to
+    #   10 by default.
     class ReportingCloud
       attr_accessor :username
       attr_accessor :password
       attr_accessor :base_uri
       attr_accessor :api_version
       attr_accessor :read_timeout
-            
+                   
+      # @param username [String] The user name.
+      # @param password [String] The password.
+      # @param base_url [String] The API base url. Is set to "http://api.reporting.cloud" 
+      #   by default.
       def initialize(username, password, base_url = nil)
         base_url ||= DEFAULT_BASE_URI
         @username = username

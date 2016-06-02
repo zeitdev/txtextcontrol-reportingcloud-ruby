@@ -2,7 +2,7 @@ module TXTextControl
   module ReportingCloud
   
     # Represents ReportingCloud account settings.
-    # @author T. Kummerow
+    # @author Thorsten Kummerow
     # @attr_reader [String, Symbol] serial_number The serial number that is attached to the 
     #   account. Possible values are :free, :trial and a 13 character long serial number.
     # @attr_reader [Integer] created_documents The number of created documents in the 
@@ -13,7 +13,7 @@ module TXTextControl
     #   created per month.
     # @attr_reader [Integer] max_templates The maximum number of templates that can be 
     #   uploaded to the template storage.
-    # @attr_reader [DateTime, nil] valid_until The date until the current subscription is valid.
+    # @attr_reader [DateTime] valid_until The date until the current subscription is valid.
     #   Can be nil.
     class AccountSettings
       attr_reader :serial_number
@@ -23,6 +23,18 @@ module TXTextControl
       attr_reader :max_templates
       attr_reader :valid_until
       
+      # @param [String, Symbol] serial_number The serial number that is attached to the 
+      #   account. Possible values are :free, :trial and a 13 character long serial number.
+      # @param [Integer] created_documents The number of created documents in the 
+      #   current month.
+      # @param [Integer] uploaded_templates The number of uploaded templates to the 
+      #   template storage.
+      # @param [Integer] max_documents The maximum number of documents that can be 
+      #   created per month.
+      # @param [Integer] max_templates The maximum number of templates that can be 
+      #   uploaded to the template storage.
+      # @param [DateTime] valid_until The date until the current subscription is valid.
+      #   Can be nil.
       def initialize(serial_number, created_documents, uploaded_templates, max_documents, max_templates, valid_until = nil)
         case serial_number.downcase
           when "trial"
