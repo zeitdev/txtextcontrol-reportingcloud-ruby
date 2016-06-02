@@ -3,12 +3,12 @@ require 'date'
 module TXTextControl
   module ReportingCloud
     class Template
-      attr_reader :templateName
+      attr_reader :template_name
       attr_reader :modified
       attr_reader :size
       
-      def initialize(templateName, modified, size)
-        @templateName = templateName
+      def initialize(template_name, modified, size)
+        @template_name = template_name
         if modified.is_a?(DateTime)
           @modified = modified
         else

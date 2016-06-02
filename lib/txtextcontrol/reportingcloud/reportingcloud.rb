@@ -14,22 +14,22 @@ module TXTextControl
     class ReportingCloud
       attr_accessor :username
       attr_accessor :password
-      attr_accessor :baseUri
-      attr_accessor :apiVersion
-      attr_accessor :readTimeout
+      attr_accessor :base_uri
+      attr_accessor :api_version
+      attr_accessor :read_timeout
             
-      def initialize(username, password, baseUrl = nil)
-        baseUrl ||= DEFAULT_BASE_URI
+      def initialize(username, password, base_url = nil)
+        base_url ||= DEFAULT_BASE_URI
         @username = username
         @password = password
-        @apiVersion = DEFAULT_VERSION
-        @readTimeout = DEFAULT_TIMEOUT   
-        @baseUri = URI.parse(baseUrl)
+        @api_version = DEFAULT_VERSION
+        @read_timeout = DEFAULT_TIMEOUT   
+        @base_uri = URI.parse(base_url)
       end
       
       # Lists all templates from the template storage.
       # @return [Array<Template>] An array of Template objects.
-      def listTemplates
+      def list_templates
         res = request("/templates/list", :get)
         if res.kind_of? Net::HTTPSuccess
           templates = Array.new
@@ -45,7 +45,7 @@ module TXTextControl
       
       # Returns the number of templates in the template storage.
       # @return [Integer] The number of templates in the template storage.
-      def getTemplateCount
+      def get_template_count
         res = request("/templates/count", :get)
         if res.kind_of? Net::HTTPSuccess
           return Integer(res.body)
@@ -56,34 +56,34 @@ module TXTextControl
       
       # Merges and returns a template from the template storage or an 
       # uploaded template with JSON data.
-      # @param returnFormat [Symbol] The format of the created document. Possible 
+      # @param return_format [Symbol] The format of the created document. Possible 
       #   values are :pdf, :rtf, :doc, :docx, :html and :tx.
-      # @param mergeBody [MergeBody] The MergeBody object contains the datasource 
+      # @param merge_body [MergeBody] The MergeBody object contains the datasource 
       #   as a JSON data object and optionally, a template encoded as a Base64 string.
-      # @param templateName [String] The name of the template in the template storage. 
+      # @param template_name [String] The name of the template in the template storage. 
       #   If no template name is specified, the template must be uploaded in the 
       #   MergeBody object of this request.
       # @param append [Boolean]  
       # @return [Array<String>] An array of the created documents as 
       #   Base64 encoded strings. 
-      def merge(mergeBody, templateName = nil, returnFormat = :pdf, append = false)
-        if !templateName.to_s.empty? && !mergeBody.template.nil?   # .to_s.empty: check for nil or ''
+      def merge(merge_body, template_name = nil, return_format = :pdf, append = false)
+        if !template_name.to_s.empty? && !merge_body.template.nil?   # .to_s.empty: check for nil or ''
           raise ArgumentError, "Template name and template data must not be present at the same time."
-        elsif templateName.to_s.empty? && mergeBody.template.nil?
+        elsif template_name.to_s.empty? && merge_body.template.nil?
           raise ArgumentError, "Either a template name or template data have to be present."
         end
         
         # Create query parameters
         params = {
-          :returnFormat => returnFormat,
+          :returnFormat => return_format,
           :append => append
         }
-        unless templateName.to_s.empty? 
-          params[:templateName] = templateName
+        unless template_name.to_s.empty? 
+          params[:templateName] = template_name
         end
         
         # Send request
-        res = request("/document/merge", :post, params, mergeBody)
+        res = request("/document/merge", :post, params, merge_body)
         if res.kind_of? Net::HTTPSuccess
           return JSON.parse(res.body)
         else
@@ -93,34 +93,34 @@ module TXTextControl
       
       # Returns the account settings.
       # @return [AccountSettings] The account settings.
-      def getAccountSettings
+      def get_account_settings
         res = request("/account/settings", :get)
         if res.kind_of? Net::HTTPSuccess
-          return AccountSettings.from_hash(JSON.parse(res.body))
+          return AccountSettings.from_camelized_hash(JSON.parse(res.body))
         else
           raise res.body 
         end
       end      
       
       # Returns a list of thumbnails of a specific template.
-      # @param templateName [String] The filename of the template in the template storage.
-      # @param zoomFactor [Integer] An Integer value between 1 and 400 to set the
+      # @param template_name [String] The filename of the template in the template storage.
+      # @param zoom_factor [Integer] An Integer value between 1 and 400 to set the
       #   percentage zoom factor of the created thumbnail images.
-      # @param fromPage [Integer] An Integer value that specifies the first page.
-      # @param toPage [Integer] An Integer value that specifies the last page.
-      # @param imageFormat [Symbol] Defines the image format of the returned thumbnails.
+      # @param from_page [Integer] An Integer value that specifies the first page.
+      # @param to_page [Integer] An Integer value that specifies the last page.
+      # @param image_format [Symbol] Defines the image format of the returned thumbnails.
       #   Possible values are :png, :jpg, :gif and :bmp.
       # @return [Array<String>] An array of Base64 encoded images.
-      def getTemplateThumbnails(templateName, zoomFactor, fromPage = 1, toPage = 0, imageFormat = :png)
+      def get_template_thumbnails(template_name, zoom_factor, from_page = 1, to_page = 0, image_format = :png)
         # Prepare query parameters
         params = {
-          :templateName => templateName,
-          :zoomFactor => zoomFactor,
-          :fromPage => fromPage,
-          :toPage => toPage,
+          :templateName => template_name,
+          :zoomFactor => zoom_factor,
+          :fromPage => from_page,
+          :toPage => to_page,
         }
-        if imageFormat != :png
-          params[:imageFormat] = imageFormat 
+        if image_format != :png
+          params[:imageFormat] = image_format 
         end
         
         # Send request
@@ -133,61 +133,61 @@ module TXTextControl
       end
       
       # Deletes a template from the template storage.
-      # @param templateName [String] The filename of the template to be deleted 
+      # @param template_name [String] The filename of the template to be deleted 
       #   from the template storage.
       # @return [void]
-      def deleteTemplate(templateName)
+      def delete_template(template_name)
         # Parameter validation
-        TemplateNameValidator.validate(templateName)
+        TemplateNameValidator.validate(template_name)
         
-        res = request("/templates/delete", :delete, { :templateName => templateName })
+        res = request("/templates/delete", :delete, { :templateName => template_name })
         unless res.kind_of? Net::HTTPSuccess
           raise res.body 
         end
       end
       
       # Stores an uploaded template in the template storage (*.doc, *.docx, *.rtf and *.tx)
-      # @param templateName [String] The filename of the template in the template storage.
+      # @param template_name [String] The filename of the template in the template storage.
       #   Existing files with the same filename will be overwritten.
-      # @param templateData [String] A document encoded as a Base64 string. 
+      # @param template_data [String] A document encoded as a Base64 string. 
       #   The supported formats are DOC, DOCX, RTF and TX.
       # @return [void]
-      def uploadTemplate(templateName, templateData)
+      def upload_template(template_name, template_data)
         # Parameter validation
-        TemplateNameValidator.validate(templateName)
-        TemplateDataValidator.validate(templateData)
+        TemplateNameValidator.validate(template_name)
+        TemplateDataValidator.validate(template_data)
         
-        res = request("/templates/upload", :post, { :templateName => templateName }, templateData)
+        res = request("/templates/upload", :post, { :templateName => template_name }, template_data)
         unless res.kind_of? Net::HTTPSuccess
           raise res.body 
         end        
       end
       
       # Returns the selected template from the storage.
-      # @param templateName [String] The filename of the template in the template storage.
+      # @param template_name [String] The filename of the template in the template storage.
       # @return [String] The template document data as a Base64 encoded string.
-      def downloadTemplate(templateName)
+      def download_template(template_name)
         # Parameter validation
-        TemplateNameValidator.validate(templateName)
+        TemplateNameValidator.validate(template_name)
 
-        res = request("/templates/download", :get, { :templateName => templateName })        
+        res = request("/templates/download", :get, { :templateName => template_name })        
         if res.kind_of? Net::HTTPSuccess
-          return res.body.removeFirstAndLastChar
+          return res.body.remove_first_and_last
         else
           raise res.body
         end
       end
       
       # Checks whether a template exists in the template storage.
-      # @param templateName [String] The filename of the template to be 
+      # @param template_name [String] The filename of the template to be 
       #   checked for availability in the template storage.
       # @return [Boolean] Returns if the template with the given name exists in
       #   the template storage.
-      def templateExists?(templateName)
+      def template_exists?(template_name)
         # Parameter validation
-        TemplateNameValidator.validate(templateName)
+        TemplateNameValidator.validate(template_name)
 
-        res = request("/templates/exists", :get, { :templateName => templateName })                       
+        res = request("/templates/exists", :get, { :templateName => template_name })                       
         if res.kind_of? Net::HTTPSuccess
           case res.body
             when "true"
@@ -202,14 +202,14 @@ module TXTextControl
       end
       
       # Returns the number of pages of a template in the template storage.
-      # @param templateName [String] The filename of the template in the template
+      # @param template_name [String] The filename of the template in the template
       #   storage to retrieve the number of pages for.
       # @return [Integer] The number of pages in the template.
-      def getTemplatePageCount(templateName)
+      def get_template_page_count(template_name)
         # Parameter validation
-        TemplateNameValidator.validate(templateName)
+        TemplateNameValidator.validate(template_name)
         
-        res = request("/templates/pagecount", :get, { :templateName => templateName })
+        res = request("/templates/pagecount", :get, { :templateName => template_name })
         if res.kind_of? Net::HTTPSuccess
           return Integer(res.body)
         else
@@ -218,53 +218,53 @@ module TXTextControl
       end
       
       # Converts a document to another format.
-      # @param templateData [String] The source document encoded as a Base64 string. 
+      # @param template_data [String] The source document encoded as a Base64 string. 
       #   The supported document formats are .rtf, .doc, .docx, .html, .pdf and .tx.
-      # @param returnFormat [Symbol] The format of the created document.
+      # @param return_format [Symbol] The format of the created document.
       #   Possible values are: :pdf, :rtf, :doc, :docx, :html and :tx.
       # @return [String] The created document encoded as a Base64 string.
-      def convert(templateData, returnFormat = :pdf)
+      def convert(template_data, return_format = :pdf)
         # Parameter validation
-        TemplateDataValidator.validate(templateData)
+        TemplateDataValidator.validate(template_data)
         
-        res = request("/document/convert", :post, { :returnFormat => returnFormat }, templateData)
+        res = request("/document/convert", :post, { :returnFormat => return_format }, template_data)
         if res.kind_of? Net::HTTPSuccess
           # Remove leading and trailing quote from string 
           # (inexplicably JSON.parse chokes on simple strings)
-          return res.body.removeFirstAndLastChar
+          return res.body.remove_first_and_last
         else
           raise res.body 
         end                
       end
       
       # Performs a HTTP request of a given type.
-      # @param requestType [Symbol] The type of the request. Possible values are :get, 
+      # @param request_type [Symbol] The type of the request. Possible values are :get, 
       # :post and :delete.
       # @param params [Hash] The query parameters.
       # @param body [Object, Hash, String] 
       # @return [Net::HTTPResponse] The HTTP response.
       private
-      def request(requestUri, requestType = :get, params = nil, body = nil)
+      def request(request_uri, request_type = :get, params = nil, body = nil)
         # Generate query string from given parameters
-        queryString = queryStringFromHash(params)
+        query_string = query_string_from_hash(params)
         
-        http = Net::HTTP.new(@baseUri.host, @baseUri.port)
-        http.read_timeout = readTimeout
+        http = Net::HTTP.new(@base_uri.host, @base_uri.port)
+        http.read_timeout = read_timeout
         
         # Get correct request type
-        reqType = nil
-        case requestType
+        req_type = nil
+        case request_type
           when :get
-            reqType = Net::HTTP::Get
+            req_type = Net::HTTP::Get
           when :post
-            reqType = Net::HTTP::Post
+            req_type = Net::HTTP::Post
           when :delete 
-            reqType = Net::HTTP::Delete
+            req_type = Net::HTTP::Delete
           else raise "Unknown HTTP request type."
         end 
         
         # Create HTTP request
-        req = reqType.new("/#{@apiVersion}#{requestUri}#{queryString}", initheader = { "Content-Type" => "application/json" })
+        req = req_type.new("/#{@api_version}#{request_uri}#{query_string}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
         # If body data is present, use it directly if it is a string or 
         # else convert it to json
@@ -273,6 +273,8 @@ module TXTextControl
             req.body = "\"" + body + "\""
           elsif body.kind_of? Hash
             req.body = body.to_json
+          elsif body.respond_to?(:to_camelized_hash)
+            req.body = body.to_camelized_hash.to_json
           elsif body.respond_to?(:to_hash)
             req.body = body.to_hash.to_json
           end
@@ -283,7 +285,7 @@ module TXTextControl
       
       # Generates a query string from a hash
       private
-      def queryStringFromHash(hash)
+      def query_string_from_hash(hash)
         return "?" + hash.collect { |k, v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&') unless hash.nil?
         return ""
       end

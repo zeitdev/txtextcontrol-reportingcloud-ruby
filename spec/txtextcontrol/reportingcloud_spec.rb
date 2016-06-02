@@ -8,7 +8,7 @@ describe TXTextControl::ReportingCloud do
   end
 end
 
-describe "#listTemplates" do
+describe "#list_templates" do
   before do
     @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
   end
@@ -17,7 +17,7 @@ describe "#listTemplates" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
     stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)    
     
-    templates = @r.listTemplates    
+    templates = @r.list_templates    
     expect(templates.length).to be(3)
   end
   
@@ -25,17 +25,17 @@ describe "#listTemplates" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
     stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
     
-    templates = @r.listTemplates    
-    expect(templates[0].templateName).to eq("new_template.docx") 
-    expect(templates[1].templateName).to eq("sample_invoice.tx") 
-    expect(templates[2].templateName).to eq("labels.tx") 
+    templates = @r.list_templates    
+    expect(templates[0].template_name).to eq("new_template.docx") 
+    expect(templates[1].template_name).to eq("sample_invoice.tx") 
+    expect(templates[2].template_name).to eq("labels.tx") 
   end
   
   it "contains expected modification dates" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
     stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
     
-    templates = @r.listTemplates    
+    templates = @r.list_templates    
     expect(templates[0].modified).to eq(DateTime.iso8601("2016-05-30T12:07:45")) 
     expect(templates[1].modified).to eq(DateTime.iso8601("2016-05-24T15:24:57")) 
     expect(templates[2].modified).to eq(DateTime.iso8601("2016-05-26T15:24:57"))     
@@ -45,25 +45,25 @@ describe "#listTemplates" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
     stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
     
-    templates = @r.listTemplates
+    templates = @r.list_templates
     expect(templates[0].size).to be(3705)    
     expect(templates[1].size).to be(34845)    
     expect(templates[2].size).to be(34212)    
   end
 end
 
-describe "#getTemplateCount" do
+describe "#get_template_count" do
   before do
     @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
   end
   
   it "parses result correctly" do
     stub_request(:get, "api.reporting.cloud/v1/templates/count").to_return(:body => "5")
-    expect(@r.getTemplateCount).to be(5)
+    expect(@r.get_template_count).to be(5)
   end
 end
 
-describe "#getTemplateThumbnails" do
+describe "#get_template_thumbnails" do
   before do
     @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
   end
@@ -72,7 +72,7 @@ describe "#getTemplateThumbnails" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_template_thumbnails.json'
     stub_request(:get, "api.reporting.cloud/v1/templates/thumbnails?templateName=new_template.docx&zoomFactor=25&fromPage=1&toPage=0").to_return(:body => canned_response)
     
-    thumbnails = @r.getTemplateThumbnails("new_template.docx", 25, 1, 0)
+    thumbnails = @r.get_template_thumbnails("new_template.docx", 25, 1, 0)
     expect(thumbnails.length).to be(2)
   end
   
@@ -80,7 +80,7 @@ describe "#getTemplateThumbnails" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_template_thumbnails.json'
     stub_request(:get, "api.reporting.cloud/v1/templates/thumbnails?templateName=new_template.docx&zoomFactor=25&fromPage=1&toPage=0").to_return(:body => canned_response)
     
-    thumbnails = @r.getTemplateThumbnails("new_template.docx", 25, 1, 0)
+    thumbnails = @r.get_template_thumbnails("new_template.docx", 25, 1, 0)
     data = Base64.strict_decode64(thumbnails[0]);
     # Check for PNG magic number
     expect(data[0].ord).to be(0x89)
@@ -94,7 +94,7 @@ describe "#getTemplateThumbnails" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_template_thumbnails_jpg.json'
     stub_request(:get, "api.reporting.cloud/v1/templates/thumbnails?templateName=new_template.docx&zoomFactor=25&fromPage=1&toPage=0&imageFormat=jpg").to_return(:body => canned_response)
     
-    thumbnails = @r.getTemplateThumbnails("new_template.docx", 25, 1, 0, :jpg)
+    thumbnails = @r.get_template_thumbnails("new_template.docx", 25, 1, 0, :jpg)
     data = Base64.strict_decode64(thumbnails[0])
     # Check for JPG magic number
     expect(data[0].ord).to be(0xFF)
@@ -116,7 +116,7 @@ describe "#merge" do
       to_return(:body => canned_response)
       
     # Some dummy merge data
-    mergeData = [
+    merge_data = [
       {
         "billto_name" => "Will Ferrell",
         "recipient_name" => "Colin Farrell",
@@ -151,9 +151,9 @@ describe "#merge" do
       }
     ]
       
-    mb = TXTextControl::ReportingCloud::MergeBody.new(mergeData)
-    mergeRes = @r.merge(mb, "sample_invoice.tx")
-    data = Base64.strict_decode64(mergeRes[0])
+    mb = TXTextControl::ReportingCloud::MergeBody.new(merge_data)
+    merge_res = @r.merge(mb, "sample_invoice.tx")
+    data = Base64.strict_decode64(merge_res[0])
     
     # Check for PDF magic number
     expect(data[0].ord).to be(0x25)
@@ -163,7 +163,7 @@ describe "#merge" do
   end
 end
 
-describe "#getAccountSettings" do
+describe "#get_account_settings" do
   before do
     @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
   end
@@ -172,31 +172,37 @@ describe "#getAccountSettings" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_account_settings_trial.json'
     stub_request(:get, "api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
     
-    as = @r.getAccountSettings
+    as = @r.get_account_settings
 
     # Check attributes
-    expect(as.serialNumber).to be(:trial)
-    expect(as.createdDocuments).to be(7)
-    expect(as.uploadedTemplates).to be(2)
-    expect(as.maxDocuments).to be(30000)
-    expect(as.maxTemplates).to be(100)
-    expect(as.validUntil).to be(nil)
+    expect(as.serial_number).to be(:trial)
+    expect(as.created_documents).to be(7)
+    expect(as.uploaded_templates).to be(2)
+    expect(as.max_documents).to be(30000)
+    expect(as.max_templates).to be(100)
+    expect(as.valid_until).to be(nil)
   end    
 
   it "gets paid version settings" do
     canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_account_settings_sn.json'
     stub_request(:get, "api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
     
-    as = @r.getAccountSettings
+    as = @r.get_account_settings
 
     # Check attributes
-    expect(as.serialNumber).to eq("3546372837463")
-    expect(as.createdDocuments).to be(7)
-    expect(as.uploadedTemplates).to be(2)
-    expect(as.maxDocuments).to be(30000)
-    expect(as.maxTemplates).to be(100)
-    expect(as.validUntil).to eq(DateTime.iso8601("2016-05-30T12:07:45"))
+    expect(as.serial_number).to eq("3546372837463")
+    expect(as.created_documents).to be(7)
+    expect(as.uploaded_templates).to be(2)
+    expect(as.max_documents).to be(30000)
+    expect(as.max_templates).to be(100)
+    expect(as.valid_until).to eq(DateTime.iso8601("2016-05-30T12:07:45"))
   end
 end
 
-describe "#uploadTemplate"
+describe "#upload_template" do
+  before do
+    @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
+  end
+
+  
+end

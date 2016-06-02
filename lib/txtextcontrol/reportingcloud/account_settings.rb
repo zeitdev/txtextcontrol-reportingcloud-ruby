@@ -3,53 +3,53 @@ module TXTextControl
   
     # Represents ReportingCloud account settings.
     # @author T. Kummerow
-    # @attr_reader [String, Symbol] serialNumber The serial number that is attached to the 
+    # @attr_reader [String, Symbol] serial_number The serial number that is attached to the 
     #   account. Possible values are :free, :trial and a 13 character long serial number.
-    # @attr_reader [Integer] createdDocuments The number of created documents in the 
+    # @attr_reader [Integer] created_documents The number of created documents in the 
     #   current month.
-    # @attr_reader [Integer] uploadedTemplates The number of uploaded templates to the 
+    # @attr_reader [Integer] uploaded_templates The number of uploaded templates to the 
     #   template storage.
-    # @attr_reader [Integer] maxDocuments The maximum number of documents that can be 
+    # @attr_reader [Integer] max_documents The maximum number of documents that can be 
     #   created per month.
-    # @attr_reader [Integer] maxTemplates The maximum number of templates that can be 
+    # @attr_reader [Integer] max_templates The maximum number of templates that can be 
     #   uploaded to the template storage.
-    # @attr_reader [DateTime, nil] validUntil The date until the current subscription is valid.
+    # @attr_reader [DateTime, nil] valid_until The date until the current subscription is valid.
     #   Can be nil.
     class AccountSettings
-      attr_reader :serialNumber
-      attr_reader :createdDocuments
-      attr_reader :uploadedTemplates
-      attr_reader :maxDocuments
-      attr_reader :maxTemplates
-      attr_reader :validUntil
+      attr_reader :serial_number
+      attr_reader :created_documents
+      attr_reader :uploaded_templates
+      attr_reader :max_documents
+      attr_reader :max_templates
+      attr_reader :valid_until
       
-      def initialize(serialNumber, createdDocuments, uploadedTemplates, maxDocuments, maxTemplates, validUntil = nil)
-        case serialNumber.downcase
+      def initialize(serial_number, created_documents, uploaded_templates, max_documents, max_templates, valid_until = nil)
+        case serial_number.downcase
           when "trial"
-            @serialNumber = :trial
+            @serial_number = :trial
           when "free"
-            @serialNumber = :free
+            @serial_number = :free
           else 
-            @serialNumber = serialNumber
+            @serial_number = serial_number
         end                
-        @createdDocuments = Integer(createdDocuments)
-        @uploadedTemplates = Integer(uploadedTemplates)
-        @maxDocuments = Integer(maxDocuments)
-        @maxTemplates = Integer(maxTemplates)
-        case validUntil
+        @created_documents = Integer(created_documents)
+        @uploaded_templates = Integer(uploaded_templates)
+        @max_documents = Integer(max_documents)
+        @max_templates = Integer(max_templates)
+        case valid_until
           when DateTime
-            @validUntil = validUntil
+            @valid_until = valid_until
           when String
-            @validUntil = DateTime.iso8601(validUntil)
+            @valid_until = DateTime.iso8601(valid_until)
           else
-            @validUntil = nil      
+            @valid_until = nil      
         end
       end
       
       # Creates an AccountSettings instance from a hash.
       # @param [Hash] hash The hash to try and create an AccountSettings instance from.
       # @return [AccountSettings] A newly created AccountSettings instance.
-      def self.from_hash(hash)
+      def self.from_camelized_hash(hash)
         sn = hash["serialNumber"]
         cd = hash["createdDocuments"]
         ut = hash["uploadedTemplates"]
