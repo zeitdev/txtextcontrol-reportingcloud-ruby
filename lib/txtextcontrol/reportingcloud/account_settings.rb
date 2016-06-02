@@ -2,7 +2,6 @@ module TXTextControl
   module ReportingCloud
   
     # Represents ReportingCloud account settings.
-    # @author Thorsten Kummerow
     # @attr_reader [String, Symbol] serial_number The serial number that is attached to the 
     #   account. Possible values are :free, :trial and a 13 character long serial number.
     # @attr_reader [Integer] created_documents The number of created documents in the 
@@ -15,6 +14,7 @@ module TXTextControl
     #   uploaded to the template storage.
     # @attr_reader [DateTime] valid_until The date until the current subscription is valid.
     #   Can be nil.
+    # @author Thorsten Kummerow
     class AccountSettings
       attr_reader :serial_number
       attr_reader :created_documents

@@ -1,5 +1,8 @@
 module TXTextControl
   module ReportingCloud
+  
+    # Internal method parameter validator class.
+    # @author Thorsten Kummerow
     class TemplateNameValidator
       def self.validate(templateName)
         raise ArgumentError, "Template name must be a String." if !templateName.kind_of? String 

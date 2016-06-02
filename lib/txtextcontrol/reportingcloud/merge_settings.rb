@@ -2,7 +2,6 @@ module TXTextControl
   module ReportingCloud
   
     # Holds the merge settings needed by the merge method.
-    # @author Thorsten Kummerow
     # @attr remove_empty_fields [Boolean] Specifies whether empty fields
     #   should be removed from the template or not.
     # @attr remove_empty_blocks [Boolean] Specifies whether the content of 
@@ -18,6 +17,7 @@ module TXTextControl
     # @attr document_title [String] The document's title.
     # @attr last_modification_date [DateTime] The document's last modification date.
     # @attr user_password [String] The password needed to open the document.
+    # @author Thorsten Kummerow
     class MergeSettings
       attr_accessor :remove_empty_fields
       attr_accessor :remove_empty_blocks

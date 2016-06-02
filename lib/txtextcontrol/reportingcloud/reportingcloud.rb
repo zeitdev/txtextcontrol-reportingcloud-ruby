@@ -12,7 +12,7 @@ require 'core_ext/string'
 module TXTextControl
   module ReportingCloud
   
-    # @author Thorsten Kummerow
+    # The main wrapper class.
     # @attr username [String] The user name.
     # @attr password [String] The password.
     # @attr base_uri [String] The API base url. Is set to "http://api.reporting.cloud" 
@@ -20,6 +20,7 @@ module TXTextControl
     # @attr api_version [String] The API version. Is set to "v1" by default.
     # @attr read_timeout [Integer] The timeout for HTTP requests in seconds. Is set to
     #   10 by default.
+    # @author Thorsten Kummerow
     class ReportingCloud
       attr_accessor :username
       attr_accessor :password

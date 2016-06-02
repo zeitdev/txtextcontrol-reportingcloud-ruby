@@ -4,13 +4,13 @@ module TXTextControl
   module ReportingCloud
   
     # Used to pass data to the merge method.
-    # @author Thorsten Kummerow
     # @attr merge_data [Array<Hash>] The merge data. Must be an array of hashes.
     # @attr template [String] Base64 encoded template document.
     #   Supported formats are RTF, DOC, DOCX and TX. 
     # @attr merge_settings [MergeSettings] Merge settings to specify 
     #   merge properties and document properties such as title and 
     #   author.
+    # @author Thorsten Kummerow
     class MergeBody
       attr_accessor :merge_data
       attr_accessor :template

@@ -1,5 +1,8 @@
 module TXTextControl
   module ReportingCloud
+  
+    # Internal method parameter validator class.
+    # @author Thorsten Kummerow
     class TemplateDataValidator
       def self.validate(template_data)
         raise ArgumentError, "Template data must be a Base64 encoded string." if !template_data.kind_of? String

@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "A short summary, because Rubygems requires one."
   spec.description   = "A longer description."
   spec.homepage      = "http://www.textcontrol.com"
+  spec.licenses      = ["MIT"]
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
