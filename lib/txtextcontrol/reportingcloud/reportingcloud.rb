@@ -16,12 +16,14 @@ module TXTextControl
       attr_accessor :password
       attr_accessor :baseUri
       attr_accessor :apiVersion
+      attr_accessor :readTimeout
             
       def initialize(username, password, baseUrl = nil)
         baseUrl ||= DEFAULT_BASE_URI
         @username = username
         @password = password
-        @apiVersion = DEFAULT_VERSION        
+        @apiVersion = DEFAULT_VERSION
+        @readTimeout = DEFAULT_TIMEOUT   
         @baseUri = URI.parse(baseUrl)
       end
       
@@ -186,10 +188,17 @@ module TXTextControl
         TemplateNameValidator.validate(templateName)
 
         res = request("/templates/exists", :get, { :templateName => templateName })                       
-        if res.kind_of? Net::HTTPBadRequest then return false
-        elsif res.kind_of? Net::HTTPSuccess then return true
-        else raise res.body 
-        end        
+        if res.kind_of? Net::HTTPSuccess
+          case res.body
+            when "true"
+              return true
+            when "false"
+              return false
+            else raise "Unknown response value received." 
+          end
+        else
+          raise res.body
+        end
       end
       
       # Returns the number of pages of a template in the template storage.
@@ -210,8 +219,7 @@ module TXTextControl
       
       # Converts a document to another format.
       # @param templateData [String] The source document encoded as a Base64 string. 
-      #   The supported document formats are .rtf, .doc, .docx, .html and .tx.
-      #   ToDo: check if this is correct. 
+      #   The supported document formats are .rtf, .doc, .docx, .html, .pdf and .tx.
       # @param returnFormat [Symbol] The format of the created document.
       #   Possible values are: :pdf, :rtf, :doc, :docx, :html and :tx.
       # @return [String] The created document encoded as a Base64 string.
@@ -241,6 +249,7 @@ module TXTextControl
         queryString = queryStringFromHash(params)
         
         http = Net::HTTP.new(@baseUri.host, @baseUri.port)
+        http.read_timeout = readTimeout
         
         # Get correct request type
         reqType = nil
@@ -258,7 +267,7 @@ module TXTextControl
         req = reqType.new("/#{@apiVersion}#{requestUri}#{queryString}", initheader = { "Content-Type" => "application/json" })
         req.basic_auth(@username, @password);
         # If body data is present, use it directly if it is a string or 
-        # convert it to json and set request body
+        # else convert it to json
         if !body.nil?
           if body.kind_of? String
             req.body = "\"" + body + "\""

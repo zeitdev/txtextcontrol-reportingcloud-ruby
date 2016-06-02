@@ -57,7 +57,7 @@ describe "#getTemplateCount" do
     @r = TXTextControl::ReportingCloud::ReportingCloud.new("username", "password")
   end
   
-  it "returns five" do
+  it "parses result correctly" do
     stub_request(:get, "api.reporting.cloud/v1/templates/count").to_return(:body => "5")
     expect(@r.getTemplateCount).to be(5)
   end
