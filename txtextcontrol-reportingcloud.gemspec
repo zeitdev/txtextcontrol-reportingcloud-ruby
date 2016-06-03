@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "ReportingCloud Ruby Wrapper"
   spec.description   = "Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access ReportingCloud in Ruby."
-  spec.homepage      = "http://www.textcontrol.com"
+  spec.homepage      = "http://www.reporting.cloud"
   spec.licenses      = ["BSD-2-Clause"]
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
