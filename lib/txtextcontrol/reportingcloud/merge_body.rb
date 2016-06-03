@@ -36,6 +36,9 @@ module TXTextControl
       #   merge properties and document properties such as title and 
       #   author.
       def initialize(merge_data, merge_settings = nil, template = nil)
+        unless merge_data.kind_of?(Array) && !merge_data.empty? && merge_data[0].kind_of?(Hash)
+          raise ArgumentError, "Merge data must be a non empty array of hashes."
+        end
         @merge_data = merge_data
         @template = template
         @merge_settings = merge_settings

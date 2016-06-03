@@ -2,7 +2,6 @@ require 'spec_helper'
 require "txtextcontrol/reportingcloud/account_settings"
 
 describe TXTextControl::ReportingCloud::AccountSettings do
-  # let(:s) { TXTextControl::ReportingCloud::AccountSettings.new("2345432342234", 2, 3, 4, 5) }
   describe ".from_camelized_hash" do
     it "creates an instance from a hash using camel case attributes" do
       hash = {

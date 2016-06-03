@@ -26,11 +26,19 @@ Or install it yourself as:
 
     $ gem install txtextcontrol-reportingcloud
 
-## Development
+## API documentation (YARD)
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+All the source code in this component library is documented using [YARD](http://yardoc.org/).
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+You can read the [API documentation](https://textcontrol.github.io/txtextcontrol-reportingcloud-ruby/) online, or build it yourself, using the following command:
+
+    $ yard doc
+
+The resultant set of HTML files will be written to `~/txtextcontrol-reportingcloud/doc`.
+
+If you don't have YARD already installed, you can install it with RubyGems with the following command:
+
+    $ gem install yard
 
 ## Contributing
 

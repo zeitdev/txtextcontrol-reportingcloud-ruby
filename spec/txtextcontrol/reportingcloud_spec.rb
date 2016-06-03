@@ -2,15 +2,17 @@ require 'spec_helper'
 require 'base64'
 require "txtextcontrol/reportingcloud/merge_body"
 
-describe TXTextControl::ReportingCloud do
-  let (:r) { TXTextControl::ReportingCloud::ReportingCloud.new("<USERNAME>", "<PASSWORD>") }
-  let(:template_data) { File.open(File.dirname(__FILE__) + "/../support/fixtures/__ruby_wrapper_test.tx", "rb") { |f| f.read } }
-  let(:template_data_B64) { Base64.strict_encode64(template_data) }    
-  
+describe TXTextControl::ReportingCloud do  
   it 'has a version number' do
     expect(TXTextControl::ReportingCloud::VERSION).not_to be nil
   end
+end
   
+describe TXTextControl::ReportingCloud::ReportingCloud do
+  let (:r) { TXTextControl::ReportingCloud::ReportingCloud.new("<USERNAME>", "<PASSWORD>") }
+  let(:template_data) { File.open(File.dirname(__FILE__) + "/../support/fixtures/__ruby_wrapper_test.tx", "rb") { |f| f.read } }
+  let(:template_data_B64) { Base64.strict_encode64(template_data) }
+      
   describe "#list_templates" do  
     it "returns three templates" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
