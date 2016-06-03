@@ -1,3 +1,16 @@
+# ReportingCloud Ruby Wrapper
+#
+# Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access 
+# ReportingCloud in Ruby.
+#
+# Go to http://www.reporting.cloud to learn more about ReportingCloud
+# Go to https://github.com/TextControl/txtextcontrol-reportingcloud-ruby for the 
+# canonical source repository.
+#
+# License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
+#
+# Copyright: © 2016 Text Control GmbH
+
 require "txtextcontrol/reportingcloud/merge_settings"
 
 module TXTextControl
@@ -33,9 +46,9 @@ module TXTextControl
       # @return [Hash] A hash representing the MergeBody instance.
       def to_camelized_hash
         return {
-          :mergeData => @merge_data,
-          :template => @template,
-          :mergeSettings => @merge_settings.nil? ? nil : merge_settings.to_camelized_hash
+          "mergeData" => @merge_data,
+          "template" => @template,
+          "mergeSettings" => @merge_settings.nil? ? nil : merge_settings.to_camelized_hash
         }
       end
     end

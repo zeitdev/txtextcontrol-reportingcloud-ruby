@@ -1,3 +1,16 @@
+# ReportingCloud Ruby Wrapper
+#
+# Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access 
+# ReportingCloud in Ruby.
+#
+# Go to http://www.reporting.cloud to learn more about ReportingCloud
+# Go to https://github.com/TextControl/txtextcontrol-reportingcloud-ruby for the 
+# canonical source repository.
+#
+# License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
+#
+# Copyright: © 2016 Text Control GmbH
+
 require "uri"
 require "net/http"
 require "json"
@@ -79,7 +92,7 @@ module TXTextControl
       # @param append [Boolean]  
       # @return [Array<String>] An array of the created documents as 
       #   Base64 encoded strings. 
-      def merge(merge_body, template_name = nil, return_format = :pdf, append = false)
+      def merge_document(merge_body, template_name = nil, return_format = :pdf, append = false)
         if !template_name.to_s.empty? && !merge_body.template.nil?   # .to_s.empty: check for nil or ''
           raise ArgumentError, "Template name and template data must not be present at the same time."
         elsif template_name.to_s.empty? && merge_body.template.nil?
@@ -236,7 +249,7 @@ module TXTextControl
       # @param return_format [Symbol] The format of the created document.
       #   Possible values are: :pdf, :rtf, :doc, :docx, :html and :tx.
       # @return [String] The created document encoded as a Base64 string.
-      def convert(template_data, return_format = :pdf)
+      def convert_document(template_data, return_format = :pdf)
         # Parameter validation
         TemplateDataValidator.validate(template_data)
         

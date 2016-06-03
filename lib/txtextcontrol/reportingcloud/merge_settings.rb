@@ -1,3 +1,16 @@
+# ReportingCloud Ruby Wrapper
+#
+# Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access 
+# ReportingCloud in Ruby.
+#
+# Go to http://www.reporting.cloud to learn more about ReportingCloud
+# Go to https://github.com/TextControl/txtextcontrol-reportingcloud-ruby for the 
+# canonical source repository.
+#
+# License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
+#
+# Copyright: © 2016 Text Control GmbH
+
 module TXTextControl
   module ReportingCloud
   
@@ -80,17 +93,17 @@ module TXTextControl
       # @return [Hash] A hash representing the MergeSettings instance.
       def to_camelized_hash
         return {
-          :removeEmptyFields => @remove_empty_fields,
-          :removeEmptyBlocks => @remove_empty_blocks,
-          :removeEmptyImages => @remove_empty_images,
-          :removeTrailingWhitespace => @remove_trailing_whitespace,
-          :author => @author,
-          :creationDate => @creation_date.nil? ? nil : creation_date.iso8601,
-          :creatorApplication => @creator_application,
-          :documentSubject => @document_subject,
-          :documentTitle => @document_title,
-          :lastModificationDate => @last_modification_date.nil? ? nil : last_modification_date.iso8601,
-          :userPassword => @user_password
+          "removeEmptyFields" => @remove_empty_fields,
+          "removeEmptyBlocks" => @remove_empty_blocks,
+          "removeEmptyImages" => @remove_empty_images,
+          "removeTrailingWhitespace" => @remove_trailing_whitespace,
+          "author" => @author,
+          "creationDate" => @creation_date.nil? ? nil : creation_date.iso8601,
+          "creatorApplication" => @creator_application,
+          "documentSubject" => @document_subject,
+          "documentTitle" => @document_title,
+          "lastModificationDate" => @last_modification_date.nil? ? nil : last_modification_date.iso8601,
+          "userPassword" => @user_password
         }
       end
     end
