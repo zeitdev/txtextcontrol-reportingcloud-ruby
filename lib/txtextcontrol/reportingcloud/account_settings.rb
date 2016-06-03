@@ -27,6 +27,7 @@ module TXTextControl
     #   uploaded to the template storage.
     # @attr_reader [DateTime] valid_until The date until the current subscription is valid.
     #   Can be nil.
+    # @author Thorsten Kummerow (@thomerow)
     class AccountSettings
       attr_reader :serial_number
       attr_reader :created_documents

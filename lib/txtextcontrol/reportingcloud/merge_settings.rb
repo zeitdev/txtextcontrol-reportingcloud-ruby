@@ -30,6 +30,7 @@ module TXTextControl
     # @attr document_title [String] The document's title.
     # @attr last_modification_date [DateTime] The document's last modification date.
     # @attr user_password [String] The password needed to open the document.
+    # @author Thorsten Kummerow (@thomerow)
     class MergeSettings
       attr_accessor :remove_empty_fields
       attr_accessor :remove_empty_blocks

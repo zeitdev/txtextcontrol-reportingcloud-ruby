@@ -33,6 +33,7 @@ module TXTextControl
     # @attr api_version [String] The API version. Is set to "v1" by default.
     # @attr read_timeout [Integer] The timeout for HTTP requests in seconds. Is set to
     #   10 by default.
+    # @author Thorsten Kummerow (@thomerow)
     class ReportingCloud
       attr_accessor :username
       attr_accessor :password

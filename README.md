@@ -28,7 +28,7 @@ Or install it yourself as:
 
 ## API documentation (YARD)
 
-All the source code in this component library is documented using [YARD](http://yardoc.org/).
+All the source code in this library is documented using [YARD](http://yardoc.org/).
 
 You can read the [API documentation](https://textcontrol.github.io/txtextcontrol-reportingcloud-ruby/) online, or build it yourself, using the following command:
 

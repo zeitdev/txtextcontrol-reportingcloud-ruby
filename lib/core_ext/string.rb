@@ -12,6 +12,7 @@
 # Copyright: © 2016 Text Control GmbH
 
 # Extensions to class String.
+# @author Thorsten Kummerow (@thomerow)
 class String
 
   # Removes the first and last characters from a string and returns the 
