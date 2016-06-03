@@ -10,7 +10,6 @@ module TXTextControl
     # @attr merge_settings [MergeSettings] Merge settings to specify 
     #   merge properties and document properties such as title and 
     #   author.
-    # @author Thorsten Kummerow
     class MergeBody
       attr_accessor :merge_data
       attr_accessor :template

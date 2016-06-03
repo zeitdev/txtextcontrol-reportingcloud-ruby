@@ -7,7 +7,6 @@ module TXTextControl
     # @attr_reader modified [DateTime] The date and time the template file was
     #   last modified.
     # @attr_reader size [Integer] The size of the template file in bytes.
-    # @author Thorsten Kummerow
     class Template
       attr_reader :template_name
       attr_reader :modified

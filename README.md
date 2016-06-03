@@ -1,10 +1,14 @@
-![Logo](https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-php/master/resource/rc_logo_512.png)
+![Logo](https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/resource/rc_logo_512.png)
 
-# TXTextControl::ReportingCloud
+# ReportingCloud Ruby Wrapper
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/txtextcontrol/reportingcloud`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is the official Ruby wrapper for ReportingCloud, which is authored, maintained and fully supported by [Text Control](http://www.textcontrol.com).
 
-TODO: Delete this and the text above, and describe your gem
+[http://www.reporting.cloud](http://www.reporting.cloud)
+
+Before using ReportingCloud, please sign up to the service:
+
+[http://api.reporting.cloud](http://api.reporting.cloud)
 
 ## Installation
 
@@ -34,5 +38,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/txtextcontrol-reportingcloud.
+Bug reports and pull requests are welcome on GitHub at https://github.com/TextControl/txtextcontrol-reportingcloud-ruby.
 

@@ -9,13 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Thorsten Kummerow"]
   spec.email         = ["thorsten@textcontrol.com"]
 
-  #spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  #spec.description   = %q{TODO: Write a longer description or delete this line.}
-  #spec.homepage      = "TODO: Put your gem's website or public repo URL here."
-  spec.summary       = "A short summary, because Rubygems requires one."
-  spec.description   = "A longer description."
+  spec.summary       = "ReportingCloud Ruby Wrapper"
+  spec.description   = "Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access ReportingCloud in Ruby."
   spec.homepage      = "http://www.textcontrol.com"
-  spec.licenses      = ["MIT"]
+  spec.licenses      = ["BSD-2-Clause"]
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.

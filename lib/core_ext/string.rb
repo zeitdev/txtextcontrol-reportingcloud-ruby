@@ -1,5 +1,4 @@
 # Extensions to class String.
-# @author Thorsten Kummerow
 class String
 
   # Removes the first and last characters from a string and returns the 

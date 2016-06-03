@@ -2,7 +2,6 @@ module TXTextControl
   module ReportingCloud
   
     # Internal method parameter validator class.
-    # @author Thorsten Kummerow
     class TemplateNameValidator
     
       # Checks if a given value is a String, is not nil and not empty.

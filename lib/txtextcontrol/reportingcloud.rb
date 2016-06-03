@@ -1,12 +1,15 @@
 require "txtextcontrol/reportingcloud/version"
 require_relative "./reportingcloud/reportingcloud.rb"
 
+# ReportingCloud Ruby Wrapper
+#
+# Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access 
+# ReportingCloud in Ruby.
+#
 # The TXTextControl module.
-# @author Thorsten Kummerow
 module TXTextControl
 
   # The ReportingCloud module.
-  # @author Thorsten Kummerow
   module ReportingCloud
   
     # Default API base url.
