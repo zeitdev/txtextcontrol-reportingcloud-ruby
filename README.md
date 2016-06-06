@@ -34,7 +34,7 @@ You can read the [API documentation](https://textcontrol.github.io/txtextcontrol
 
     $ yard doc
 
-The resultant set of HTML files will be written to `~/txtextcontrol-reportingcloud/doc`.
+The resultant set of HTML files will be written to `~/txtextcontrol-reportingcloud-ruby/doc`.
 
 If you don't have YARD already installed, you can install it with RubyGems with the following command:
 
