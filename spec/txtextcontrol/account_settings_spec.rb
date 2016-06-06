@@ -10,7 +10,7 @@ describe TXTextControl::ReportingCloud::AccountSettings do
         "uploadedTemplates" => 3,
         "maxDocuments" => 40000,
         "maxTemplates" => 500,
-        "validUntil" => "2016-05-24T15:24:57"
+        "validUntil" => "2016-05-24T15:24:57+00:00"
       }
       
       s = TXTextControl::ReportingCloud::AccountSettings::from_camelized_hash(hash)
@@ -18,7 +18,7 @@ describe TXTextControl::ReportingCloud::AccountSettings do
       expect(s.created_documents).to be(2)
       expect(s.uploaded_templates).to be(3)
       expect(s.max_documents).to be(40000)
-      expect(s.valid_until).to eq(DateTime.iso8601("2016-05-24T15:24:57"))
+      expect(s.valid_until).to eq(DateTime.iso8601("2016-05-24T15:24:57+00:00"))
     end
   end
 end

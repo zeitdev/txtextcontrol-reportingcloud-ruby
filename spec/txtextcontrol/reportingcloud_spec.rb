@@ -37,9 +37,9 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
       
       templates = r.list_templates    
-      expect(templates[0].modified).to eq(DateTime.iso8601("2016-05-30T12:07:45")) 
-      expect(templates[1].modified).to eq(DateTime.iso8601("2016-05-24T15:24:57")) 
-      expect(templates[2].modified).to eq(DateTime.iso8601("2016-05-26T15:24:57"))     
+      expect(templates[0].modified).to eq(DateTime.iso8601("2016-05-30T12:07:45+00:00"))
+      expect(templates[1].modified).to eq(DateTime.iso8601("2016-05-24T15:24:57+00:00"))
+      expect(templates[2].modified).to eq(DateTime.iso8601("2016-05-26T15:24:57+00:00"))
     end
     
     it "contains expected file sizes" do
@@ -153,7 +153,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       expect(as.uploaded_templates).to be(2)
       expect(as.max_documents).to be(30000)
       expect(as.max_templates).to be(100)
-      expect(as.valid_until).to be(nil)
+      expect(as.valid_until).to eq(DateTime.iso8601("2016-07-03T16:13:13+00:00"))
     end    
 
     it "gets paid version settings" do
@@ -168,7 +168,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       expect(as.uploaded_templates).to be(2)
       expect(as.max_documents).to be(30000)
       expect(as.max_templates).to be(100)
-      expect(as.valid_until).to eq(DateTime.iso8601("2016-05-30T12:07:45"))
+      expect(as.valid_until).to eq(DateTime.iso8601("2016-05-30T12:07:45+00:00"))
     end
   end
 

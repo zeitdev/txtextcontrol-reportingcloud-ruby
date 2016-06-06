@@ -8,7 +8,7 @@ describe TXTextControl::ReportingCloud::MergeSettings do
     end
     
     it "accepts an iso 8601 date time string" do
-      str = "2016-05-30T12:07:45"
+      str = "2016-05-30T12:07:45+00:00"
       expect { @ms.creation_date = str }.not_to raise_error
       expect(@ms.creation_date).to eq(DateTime.iso8601(str))
     end
@@ -19,7 +19,7 @@ describe TXTextControl::ReportingCloud::MergeSettings do
     end
     
     it "accepts a DateTime instance" do
-      dt = DateTime.iso8601("2016-05-30T12:07:45")
+      dt = DateTime.iso8601("2016-05-30T12:07:45+00:00")
       expect { @ms.creation_date = dt }.not_to raise_error
       expect(@ms.creation_date).to eq(dt)
     end
@@ -35,7 +35,7 @@ describe TXTextControl::ReportingCloud::MergeSettings do
     end
     
     it "accepts an iso 8601 date time string" do
-      str = "2016-05-30T12:07:45"
+      str = "2016-05-30T12:07:45+00:00"
       expect { @ms.last_modification_date = str }.not_to raise_error
       expect(@ms.last_modification_date).to eq(DateTime.iso8601(str))
     end
@@ -46,7 +46,7 @@ describe TXTextControl::ReportingCloud::MergeSettings do
     end
     
     it "accepts a DateTime instance" do
-      dt = DateTime.iso8601("2016-05-30T12:07:45")
+      dt = DateTime.iso8601("2016-05-30T12:07:45+00:00")
       expect { @ms.last_modification_date = dt }.not_to raise_error
       expect(@ms.last_modification_date).to eq(dt)
     end

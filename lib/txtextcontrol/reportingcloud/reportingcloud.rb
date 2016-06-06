@@ -268,7 +268,7 @@ module TXTextControl
       # @param request_type [Symbol] The type of the request. Possible values are :get, 
       # :post and :delete.
       # @param params [Hash] The query parameters.
-      # @param body [Object, Hash, String] 
+      # @param body [Object, Hash, String] The request body.
       # @return [Net::HTTPResponse] The HTTP response.
       private
       def request(request_uri, request_type = :get, params = nil, body = nil)
