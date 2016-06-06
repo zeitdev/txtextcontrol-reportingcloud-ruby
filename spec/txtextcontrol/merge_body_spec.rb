@@ -17,4 +17,36 @@ describe TXTextControl::ReportingCloud::MergeBody do
       expect(h["mergeSettings"]).to be_kind_of(Hash)
     end
   end
+  
+  describe "#merge_data" do
+    it "raises ArgumentError in case of nil" do
+      expect { merge_body = TXTextControl::ReportingCloud::MergeBody.new(nil) }.to raise_error(ArgumentError)
+    end
+    
+    it "raises ArgumentError in case of empty array" do
+      merge_data = []
+      expect { merge_body = TXTextControl::ReportingCloud::MergeBody.new(merge_data) }.to raise_error(ArgumentError)
+    end
+    
+    it "raises ArgumentError in case of wrong data type" do
+      merge_data = "a string"
+      expect { merge_body = TXTextControl::ReportingCloud::MergeBody.new(merge_data) }.to raise_error(ArgumentError)
+    end
+    
+    it "raises ArgumentError in case of array of wrong data types" do
+      merge_data = [
+        "Test", 42
+      ]
+      expect { merge_body = TXTextControl::ReportingCloud::MergeBody.new(merge_data) }.to raise_error(ArgumentError)
+    end
+    
+    it "accepts an array of hashes" do
+      merge_data = [
+        { "Test" => "Test" },
+        { "Test" => "Test" }
+      ]
+      merge_body = nil
+      expect { merge_body = TXTextControl::ReportingCloud::MergeBody.new(merge_data) }.not_to raise_error
+    end
+  end
 end

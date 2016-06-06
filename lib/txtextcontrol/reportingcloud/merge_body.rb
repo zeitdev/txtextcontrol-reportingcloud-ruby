@@ -25,7 +25,6 @@ module TXTextControl
     #   author.
     # @author Thorsten Kummerow (@thomerow)
     class MergeBody
-      attr_accessor :merge_data
       attr_accessor :template
       attr_accessor :merge_settings
       
@@ -37,13 +36,21 @@ module TXTextControl
       #   merge properties and document properties such as title and 
       #   author.
       def initialize(merge_data, merge_settings = nil, template = nil)
-        unless merge_data.kind_of?(Array) && !merge_data.empty? && merge_data[0].kind_of?(Hash)
-          raise ArgumentError, "Merge data must be a non empty array of hashes."
-        end
-        @merge_data = merge_data
+        self.merge_data = merge_data
         @template = template
         @merge_settings = merge_settings
       end      
+      
+      def merge_data=(val)
+        unless val.kind_of?(Array) && !val.empty? && val[0].kind_of?(Hash)
+          raise ArgumentError, "Merge data must be a non empty array of hashes."
+        end        
+        @merge_data = val
+      end
+      
+      def merge_data
+        @merge_data
+      end
       
       # Converts a MergeBody instance to a hash while converting the attribute names
       # from snake case to camel case.
