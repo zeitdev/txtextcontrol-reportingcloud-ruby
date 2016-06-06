@@ -99,11 +99,11 @@ module TXTextControl
           "removeEmptyImages" => @remove_empty_images,
           "removeTrailingWhitespace" => @remove_trailing_whitespace,
           "author" => @author,
-          "creationDate" => @creation_date.nil? ? nil : creation_date.iso8601,
+          "creationDate" => @creation_date.nil? ? nil : @creation_date.iso8601,
           "creatorApplication" => @creator_application,
           "documentSubject" => @document_subject,
           "documentTitle" => @document_title,
-          "lastModificationDate" => @last_modification_date.nil? ? nil : last_modification_date.iso8601,
+          "lastModificationDate" => @last_modification_date.nil? ? nil : @last_modification_date.iso8601,
           "userPassword" => @user_password
         }
       end
