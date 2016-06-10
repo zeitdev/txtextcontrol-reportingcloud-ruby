@@ -16,6 +16,7 @@ require 'date'
 module TXTextControl
   module ReportingCloud
   
+    # Holds information about a template in the template storage.
     # @attr_reader template_name [String] The template file name.
     # @attr_reader modified [DateTime] The date and time the template file was
     #   last modified.

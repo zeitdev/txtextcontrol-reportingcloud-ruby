@@ -28,11 +28,11 @@ module TXTextControl
     # The main wrapper class.
     # @attr username [String] The user name.
     # @attr password [String] The password.
-    # @attr base_uri [String] The API base url. Is set to "http://api.reporting.cloud" 
+    # @attr base_uri [String] The API base url. Is set to "+http://api.reporting.cloud+" 
     #   by default.
-    # @attr api_version [String] The API version. Is set to "v1" by default.
+    # @attr api_version [String] The API version. Is set to "+v1+" by default.
     # @attr read_timeout [Integer] The timeout for HTTP requests in seconds. Is set to
-    #   10 by default.
+    #   +10+ by default.
     # @author Thorsten Kummerow (@thomerow)
     class ReportingCloud
       attr_accessor :username
@@ -43,7 +43,7 @@ module TXTextControl
                    
       # @param username [String] The user name.
       # @param password [String] The password.
-      # @param base_url [String] The API base url. Is set to "http://api.reporting.cloud" 
+      # @param base_url [String] The API base url. Is set to "+http://api.reporting.cloud+" 
       #   by default.
       def initialize(username, password, base_url = nil)
         base_url ||= DEFAULT_BASE_URI
@@ -84,13 +84,14 @@ module TXTextControl
       # Merges and returns a template from the template storage or an 
       # uploaded template with JSON data.
       # @param return_format [Symbol] The format of the created document. Possible 
-      #   values are :pdf, :rtf, :doc, :docx, :html and :tx.
+      #   values are +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
       # @param merge_body [MergeBody] The MergeBody object contains the datasource 
       #   as a JSON data object and optionally, a template encoded as a Base64 string.
       # @param template_name [String] The name of the template in the template storage. 
       #   If no template name is specified, the template must be uploaded in the 
       #   MergeBody object of this request.
-      # @param append [Boolean]  
+      # @param append [Boolean] Specifies whether the documents should be appened 
+      #   to one resulting document when more than 1 data row is passed.
       # @return [Array<String>] An array of the created documents as 
       #   Base64 encoded strings. 
       def merge_document(merge_body, template_name = nil, return_format = :pdf, append = false)
@@ -131,12 +132,12 @@ module TXTextControl
       
       # Returns a list of thumbnails of a specific template.
       # @param template_name [String] The filename of the template in the template storage.
-      # @param zoom_factor [Integer] An Integer value between 1 and 400 to set the
+      # @param zoom_factor [Integer] An Integer value between +1+ and +400+ to set the
       #   percentage zoom factor of the created thumbnail images.
       # @param from_page [Integer] An Integer value that specifies the first page.
       # @param to_page [Integer] An Integer value that specifies the last page.
       # @param image_format [Symbol] Defines the image format of the returned thumbnails.
-      #   Possible values are :png, :jpg, :gif and :bmp.
+      #   Possible values are +:png+, +:jpg+, +:gif+ and +:bmp+.
       # @return [Array<String>] An array of Base64 encoded images.
       def get_template_thumbnails(template_name, zoom_factor, from_page = 1, to_page = 0, image_format = :png)
         # Prepare query parameters
@@ -173,7 +174,7 @@ module TXTextControl
         end
       end
       
-      # Stores an uploaded template in the template storage (*.doc, *.docx, *.rtf and *.tx)
+      # Stores an uploaded template in the template storage ( +*.doc+, +*.docx+, +*.rtf+ and +*.tx+)
       # @param template_name [String] The filename of the template in the template storage.
       #   Existing files with the same filename will be overwritten.
       # @param template_data [String] A document encoded as a Base64 string. 
@@ -246,9 +247,9 @@ module TXTextControl
       
       # Converts a document to another format.
       # @param template_data [String] The source document encoded as a Base64 string. 
-      #   The supported document formats are .rtf, .doc, .docx, .html, .pdf and .tx.
+      #   The supported document formats are +.rtf+, +.doc+, +.docx+, +.html+, +.pdf+ and +.tx+.
       # @param return_format [Symbol] The format of the created document.
-      #   Possible values are: :pdf, :rtf, :doc, :docx, :html and :tx.
+      #   Possible values are: +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
       # @return [String] The created document encoded as a Base64 string.
       def convert_document(template_data, return_format = :pdf)
         # Parameter validation
@@ -265,8 +266,8 @@ module TXTextControl
       end
       
       # Performs a HTTP request of a given type.
-      # @param request_type [Symbol] The type of the request. Possible values are :get, 
-      # :post and :delete.
+      # @param request_type [Symbol] The type of the request. Possible values are +:get+, 
+      # +:post+ and +:delete+.
       # @param params [Hash] The query parameters.
       # @param body [Object, Hash, String] The request body.
       # @return [Net::HTTPResponse] The HTTP response.

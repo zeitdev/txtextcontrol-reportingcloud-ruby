@@ -78,7 +78,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       expect(data[1].ord).to be(0x50)
       expect(data[2].ord).to be(0x4E)
       expect(data[3].ord).to be(0x47)
-      expect(data[4].ord).to be(0x0d)
+      expect(data[4].ord).to be(0x0D)
     end
     
     it "returns jpg images" do

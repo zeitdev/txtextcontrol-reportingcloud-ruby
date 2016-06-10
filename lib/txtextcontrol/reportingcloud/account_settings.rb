@@ -16,7 +16,7 @@ module TXTextControl
   
     # Represents ReportingCloud account settings.
     # @attr_reader [String, Symbol] serial_number The serial number that is attached to the 
-    #   account. Possible values are :free, :trial and a 13 character long serial number.
+    #   account. Possible values are +:free+, +:trial+ and a 13 character long serial number.
     # @attr_reader [Integer] created_documents The number of created documents in the 
     #   current month.
     # @attr_reader [Integer] uploaded_templates The number of uploaded templates to the 
@@ -37,7 +37,7 @@ module TXTextControl
       attr_reader :valid_until
       
       # @param [String, Symbol] serial_number The serial number that is attached to the 
-      #   account. Possible values are :free, :trial and a 13 character long serial number.
+      #   account. Possible values are +:free+, +:trial+ and a 13 character long serial number.
       # @param [Integer] created_documents The number of created documents in the 
       #   current month.
       # @param [Integer] uploaded_templates The number of uploaded templates to the 
