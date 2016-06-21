@@ -28,7 +28,7 @@ module TXTextControl
     # The main wrapper class.
     # @attr username [String] The user name.
     # @attr password [String] The password.
-    # @attr base_uri [String] The API base url. Is set to "+http://api.reporting.cloud+" 
+    # @attr base_uri [String] The API base url. Is set to "+https://api.reporting.cloud+" 
     #   by default.
     # @attr api_version [String] The API version. Is set to "+v1+" by default.
     # @attr read_timeout [Integer] The timeout for HTTP requests in seconds. Is set to
@@ -43,7 +43,7 @@ module TXTextControl
                    
       # @param username [String] The user name.
       # @param password [String] The password.
-      # @param base_url [String] The API base url. Is set to "+http://api.reporting.cloud+" 
+      # @param base_url [String] The API base url. Is set to "+https://api.reporting.cloud+" 
       #   by default.
       def initialize(username, password, base_url = nil)
         base_url ||= DEFAULT_BASE_URI
@@ -277,6 +277,7 @@ module TXTextControl
         query_string = query_string_from_hash(params)
         
         http = Net::HTTP.new(@base_uri.host, @base_uri.port)
+        http.use_ssl = @base_uri.scheme == "https"
         http.read_timeout = read_timeout
         
         # Get correct request type

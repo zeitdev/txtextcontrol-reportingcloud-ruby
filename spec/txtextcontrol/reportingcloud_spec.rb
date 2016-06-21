@@ -16,7 +16,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
   describe "#list_templates" do  
     it "returns three templates" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
-      stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)    
+      stub_request(:get, "https://api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)    
       
       templates = r.list_templates    
       expect(templates.length).to be(3)
@@ -24,7 +24,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
     
     it "contains expected template names" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
-      stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
+      stub_request(:get, "https://api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
       
       templates = r.list_templates    
       expect(templates[0].template_name).to eq("new_template.docx") 
@@ -34,7 +34,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
     
     it "contains expected modification dates" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
-      stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
+      stub_request(:get, "https://api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
       
       templates = r.list_templates    
       expect(templates[0].modified).to eq(DateTime.iso8601("2016-05-30T12:07:45+00:00"))
@@ -44,7 +44,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
     
     it "contains expected file sizes" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/list_templates.json'
-      stub_request(:get, "api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
+      stub_request(:get, "https://api.reporting.cloud/v1/templates/list").to_return(:body => canned_response)
       
       templates = r.list_templates
       expect(templates[0].size).to be(3705)    
@@ -55,7 +55,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
 
   describe "#get_template_count" do  
     it "parses result correctly" do
-      stub_request(:get, "api.reporting.cloud/v1/templates/count").to_return(:body => "5")
+      stub_request(:get, "https://api.reporting.cloud/v1/templates/count").to_return(:body => "5")
       expect(r.get_template_count).to be(5)
     end
   end
@@ -63,7 +63,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
   describe "#get_template_thumbnails" do  
     it "returns two images" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_template_thumbnails.json'
-      stub_request(:get, "api.reporting.cloud/v1/templates/thumbnails?templateName=new_template.docx&zoomFactor=25&fromPage=1&toPage=0").to_return(:body => canned_response)
+      stub_request(:get, "https://api.reporting.cloud/v1/templates/thumbnails?templateName=new_template.docx&zoomFactor=25&fromPage=1&toPage=0").to_return(:body => canned_response)
       
       thumbnails = r.get_template_thumbnails("new_template.docx", 25, 1, 0)
       expect(thumbnails.length).to be(2)
@@ -143,7 +143,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
   describe "#get_account_settings" do
     it "gets trial settings" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_account_settings_trial.json'
-      stub_request(:get, "api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
+      stub_request(:get, "https://api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
       
       as = r.get_account_settings
 
@@ -158,7 +158,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
 
     it "gets paid version settings" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_account_settings_sn.json'
-      stub_request(:get, "api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
+      stub_request(:get, "https://api.reporting.cloud/v1/account/settings").to_return(:body => canned_response)
       
       as = r.get_account_settings
 

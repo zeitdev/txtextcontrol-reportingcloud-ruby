@@ -21,7 +21,7 @@ module TXTextControl
   module ReportingCloud
   
     # Default API base url.
-    DEFAULT_BASE_URI = "http://api.reporting.cloud"
+    DEFAULT_BASE_URI = "https://api.reporting.cloud"
     # Default API version.
     DEFAULT_VERSION = "v1"
     # Default http request timeout in seconds.
