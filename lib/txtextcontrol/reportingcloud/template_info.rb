@@ -11,6 +11,9 @@
 #
 # Copyright: © 2017 Text Control GmbH
 
+require 'txtextcontrol/reportingcloud/merge_field'
+require 'txtextcontrol/reportingcloud/merge_block'
+
 module TXTextControl
   module ReportingCloud
 
