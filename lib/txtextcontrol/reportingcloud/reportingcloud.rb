@@ -9,7 +9,7 @@
 #
 # License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
 #
-# Copyright: © 2016 Text Control GmbH
+# Copyright: © 2017 Text Control GmbH
 
 require "uri"
 require "net/http"
@@ -17,6 +17,7 @@ require "json"
 require "ostruct"
 require "cgi"
 require 'txtextcontrol/reportingcloud/template'
+require 'txtextcontrol/reportingcloud/template_info'
 require 'txtextcontrol/reportingcloud/account_settings'
 require 'txtextcontrol/reportingcloud/template_name_validator'
 require 'txtextcontrol/reportingcloud/template_data_validator'
@@ -265,6 +266,22 @@ module TXTextControl
         end                
       end
       
+      # Returns information about a template including merge fields and merge blocks.
+      # @param template_name [String] The filename of the template in the template
+      #   storage to retrieve the information for.
+      # @return [TemplateInfo] The template information.
+      def get_template_info(template_name)
+        # Parameter validation
+        TemplateNameValidator.validate(template_name)
+
+        res = request("/templates/info", :get, { :templateName => template_name })
+        if res.kind_of? Net::HTTPSuccess
+          return TemplateInfo.from_camelized_hash(JSON.parse(res.body))
+        else
+          raise res.body
+        end
+      end      
+
       # Performs a HTTP request of a given type.
       # @param request_type [Symbol] The type of the request. Possible values are +:get+, 
       # +:post+ and +:delete+.

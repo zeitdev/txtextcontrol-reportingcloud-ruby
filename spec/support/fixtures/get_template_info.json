@@ -1,0 +1,193 @@
+{
+  "templateName": "invoice.tx",
+  "mergeBlocks": [
+    {
+      "name": "Sales_SalesOrderDetail",
+      "mergeFields": [
+        {
+          "dateTimeFormat": "",
+          "name": "Production_Product.ProductNumber",
+          "numericFormat": "",
+          "preserveFormatting": false,
+          "text": "«ProductNumber»",
+          "textAfter": "",
+          "textBefore": ""
+        },
+        {
+          "dateTimeFormat": "",
+          "name": "Production_Product.Name",
+          "numericFormat": "",
+          "preserveFormatting": false,
+          "text": "«Name»",
+          "textAfter": "",
+          "textBefore": ""
+        },
+        {
+          "dateTimeFormat": "",
+          "name": "OrderQty",
+          "numericFormat": "",
+          "preserveFormatting": false,
+          "text": "«OrderQty»",
+          "textAfter": "",
+          "textBefore": ""
+        },
+        {
+          "dateTimeFormat": "",
+          "name": "UnitPrice",
+          "numericFormat": "$#,###.00",
+          "preserveFormatting": false,
+          "text": "«UnitPrice»",
+          "textAfter": "",
+          "textBefore": ""
+        },
+        {
+          "dateTimeFormat": "",
+          "name": "LineTotal",
+          "numericFormat": "$#,###.00",
+          "preserveFormatting": false,
+          "text": "«LineTotal»",
+          "textAfter": "",
+          "textBefore": ""
+        }
+      ],
+      "mergeBlocks": []
+    }
+  ],
+  "mergeFields": [
+    {
+      "dateTimeFormat": "",
+      "name": "Customer_Customer.Name",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«Customer_Customer.Name»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "Person_Contact.FirstName",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«Person_Contact.FirstName»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "Person_Contact.LastName",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«Person_Contact.LastName»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "Customer_Customer.Sales_CustomerAddress.Person_Address.AddressLine1",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«AddressLine1»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "Customer_Customer.Sales_CustomerAddress.Person_Address.PostalCode",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«PostalCode»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "Customer_Customer.Sales_CustomerAddress.Person_Address.City",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«City»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "SalesOrderID",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«SalesOrderID»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "MM-dd-yy",
+      "name": "OrderDate",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«OrderDate»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "MM-dd-yy",
+      "name": "DueDate",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«DueDate»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "SubTotal",
+      "numericFormat": "$#,###.00",
+      "preserveFormatting": false,
+      "text": "«SubTotal»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "TaxAmt",
+      "numericFormat": "$#,###.00",
+      "preserveFormatting": false,
+      "text": "«TaxAmt»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "Freight",
+      "numericFormat": "$#,###.00",
+      "preserveFormatting": false,
+      "text": "«Freight»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "TotalDue",
+      "numericFormat": "$#,###.00",
+      "preserveFormatting": false,
+      "text": "«TotalDue»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "SalesOrderID",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«SalesOrderID»",
+      "textAfter": "",
+      "textBefore": ""
+    },
+    {
+      "dateTimeFormat": "",
+      "name": "SalesOrderID",
+      "numericFormat": "",
+      "preserveFormatting": false,
+      "text": "«SalesOrderID»",
+      "textAfter": "",
+      "textBefore": ""
+    }
+  ]
+}

@@ -90,6 +90,14 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
     end
   end
 
+  describe "#get_template_info" do
+    let (:info) { r.get_template_info("invoice.tx") }
+
+    it "returns the correct template name" do
+      expect(info.template_name).to eq("invoice.tx")
+    end    
+  end  
+
   describe "#merge_document" do
     it "generates PDF documents" do
       # Some dummy merge data
