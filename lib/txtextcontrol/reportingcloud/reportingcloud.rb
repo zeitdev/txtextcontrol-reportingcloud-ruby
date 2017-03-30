@@ -19,6 +19,7 @@ require "cgi"
 require 'txtextcontrol/reportingcloud/template'
 require 'txtextcontrol/reportingcloud/template_info'
 require 'txtextcontrol/reportingcloud/account_settings'
+require 'txtextcontrol/reportingcloud/find_and_replace_body'
 require 'txtextcontrol/reportingcloud/template_name_validator'
 require 'txtextcontrol/reportingcloud/template_data_validator'
 require 'core_ext/string'
@@ -93,9 +94,11 @@ module TXTextControl
       #   MergeBody object of this request.
       # @param append [Boolean] Specifies whether the documents should be appened 
       #   to one resulting document when more than 1 data row is passed.
+      # @param test [Boolean] Specifies whether it is a test run or not. A test run is 
+      #   not counted against the quota and created documents contain a watermark.
       # @return [Array<String>] An array of the created documents as 
       #   Base64 encoded strings. 
-      def merge_document(merge_body, template_name = nil, return_format = :pdf, append = false)
+      def merge_document(merge_body, template_name = nil, return_format = :pdf, append = false, test = false)
         if !template_name.to_s.empty? && !merge_body.template.nil?   # .to_s.empty: check for nil or ''
           raise ArgumentError, "Template name and template data must not be present at the same time."
         elsif template_name.to_s.empty? && merge_body.template.nil?
@@ -105,7 +108,8 @@ module TXTextControl
         # Create query parameters
         params = {
           :returnFormat => return_format,
-          :append => append
+          :append => append,
+          :test => test
         }
         unless template_name.to_s.empty? 
           params[:templateName] = template_name
@@ -251,12 +255,20 @@ module TXTextControl
       #   The supported document formats are +.rtf+, +.doc+, +.docx+, +.html+, +.pdf+ and +.tx+.
       # @param return_format [Symbol] The format of the created document.
       #   Possible values are: +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
+      # @param test [Boolean]  Specifies whether it is a test run or not. A test run is not 
+      #   counted against the quota and created documents contain a watermark.
       # @return [String] The created document encoded as a Base64 string.
-      def convert_document(template_data, return_format = :pdf)
+      def convert_document(template_data, return_format = :pdf, test = false)
         # Parameter validation
         TemplateDataValidator.validate(template_data)
         
-        res = request("/document/convert", :post, { :returnFormat => return_format }, template_data)
+        # Create query parameters
+        params = {
+          :returnFormat => return_format,
+          :test => test
+        }
+
+        res = request("/document/convert", :post, params, template_data)
         if res.kind_of? Net::HTTPSuccess
           # Remove leading and trailing quote from string 
           # (inexplicably JSON.parse chokes on simple strings)
@@ -281,6 +293,42 @@ module TXTextControl
           raise res.body
         end
       end      
+
+      # Executes a find and replace on a template.
+      # @param find_and_replace_body [FindAndReplaceBody] The request body.
+      # @param template_name [String] The name of the template in the template storage. 
+      #   If no template is specified, the template must be included in the FindAndReplaceBody 
+      #   object of this request.
+      # @param return_format [Symbol] The format of the created document.
+      #   Possible values are: +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
+      # @param test [Boolean]  Specifies whether it is a test run or not. A test run is not 
+      #   counted against the quota and created documents contain a watermark.
+      # @return [String] The created document encoded as a Base64 string.
+      def find_and_replace(find_and_replace_body, template_name = nil, return_format = :pdf, test = false)
+        # Parameter validation
+        unless !find_and_replace_body.nil? && (find_and_replace_body.kind_of? FindAndReplaceBody) 
+          raise ArgumentError, "Request body must be of type FindAndReplaceBody."
+        end
+        unless template_name.nil? || !template_name.to_s.empty?
+          raise ArgumentError, "Template name must be a non empty string."
+        end        
+        
+        # Create query parameters
+        params = {
+          :returnFormat => return_format,
+          :templateName => template_name,
+          :test => test
+        }
+
+        res = request("/document/findandreplace", :post, params, find_and_replace_body)
+        if res.kind_of? Net::HTTPSuccess
+          # Remove leading and trailing quote from string 
+          # (inexplicably JSON.parse chokes on simple strings)
+          return res.body.remove_first_and_last
+        else
+          raise res.body 
+        end                
+      end
 
       # Performs a HTTP request of a given type.
       # @param request_type [Symbol] The type of the request. Possible values are +:get+, 

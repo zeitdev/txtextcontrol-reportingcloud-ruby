@@ -36,11 +36,11 @@ module TXTextControl
 
       def initialize(date_time_format, name, numeric_format, preserve_formatting, text, text_after, text_before)
         # Parameter validation
-        if !date_time_format.nil? && (!date_time_format.kind_of? String)
+        unless date_time_format.nil? || (date_time_format.kind_of? String)
           raise ArgumentError, "Date / time format must be a string."
         end
         raise ArgumentError, "Field name must be a string." if !name.kind_of? String
-        if !numeric_format.nil? && (!numeric_format.kind_of? String)
+        unless numeric_format.nil? || (numeric_format.kind_of? String)
           raise ArgumentError, "Numeric format must be a string"
         end
         raise ArgumentError, "Preserve formatting parameter must be a boolean value." if !!preserve_formatting != preserve_formatting

@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'base64'
 require "txtextcontrol/reportingcloud/merge_body"
+require "txtextcontrol/reportingcloud/find_and_replace_body"
 
 describe TXTextControl::ReportingCloud do  
   it 'has a version number' do
@@ -248,4 +249,20 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       expect(templates.any? { |t| t.template_name == "__ruby_wrapper_test.tx" }).to be (false)
     end
   end
+
+  describe "#find_and_replace" do
+    # Adapt template name and replaced strings to one of your templates.
+    it "replaces two substrings correctly" do            
+      template_name = "invoice.tx"
+      templates = r.list_templates
+      expect(templates.any? { |t| t.template_name == template_name }).to be(true)
+      find_and_replace_body = TXTextControl::ReportingCloud::FindAndReplaceBody.new([["Quick Facts", "Awesome Facts"], ["Total Due", "IOU"]])
+      result_b64 = r.find_and_replace(find_and_replace_body, template_name, :html, true)
+      html = Base64.strict_decode64(result_b64)
+      expect(html).to include("Awesome Facts")
+      expect(html).to include("IOU")
+      expect(html).not_to include("Quick Facts")
+      expect(html).not_to include("Total Due")
+    end
+  end  
 end
