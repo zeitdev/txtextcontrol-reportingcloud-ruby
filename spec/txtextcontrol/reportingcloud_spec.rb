@@ -265,4 +265,11 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       expect(html).not_to include("Total Due")
     end
   end  
+
+  describe "#get_font_list" do
+    it "returns an array of strings" do
+      fonts = r.get_font_list
+      expect(fonts.all? { |font| font.kind_of? String }).to be(true)
+    end    
+  end  
 end
