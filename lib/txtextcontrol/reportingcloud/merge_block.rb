@@ -38,6 +38,9 @@ module TXTextControl
         @merge_fields = merge_fields
       end
 
+      # Creates an MergeBlock instance from a hash.
+      # @param [Hash] hash The hash to try and create an MergeBlock instance from.
+      # @return [MergeBlock] A newly created MergeBlock instance.
       def self.from_camelized_hash(hash) 
         # Parameter validation
         raise ArgumentError, "Parameter must be a Hash." if !hash.kind_of? Hash

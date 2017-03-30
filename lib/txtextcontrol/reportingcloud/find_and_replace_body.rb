@@ -17,10 +17,10 @@ module TXTextControl
   module ReportingCloud
 
     # The request body of requests to the endpoint "/document/findandreplace". Contains 
-    #   a JSON array of string arrays, a template encoded as a Base64 string and a 
-    #   ReportingCloud MergeSettings object.
+    # an array of string arrays, a template encoded as a Base64 string and a ReportingCloud 
+    # MergeSettings object.
     # @attr find_and_replace_data [Array<Array<String>>] The find and replace
-    #   pair values as an array of arrays of strings.
+    #   pair values as an array of string arrays.
     # @attr merge_settings [MergeSettings] Merge settings to specify merge 
     #   properties and document properties such as title and author.
     # @attr template [String] The source document encoded as a Base64 string.
@@ -31,7 +31,7 @@ module TXTextControl
 
       # Executes a find and replace on a template.
       # @param find_and_replace_data [Array<Array<String>>] The find and replace
-      #   pair values as an array of arrays of strings.
+      #   pair values as an array of string arrays.
       # @param template [String] The source document encoded as a Base64 string. 
       #   The supported document formats are +.rtf+, +.doc+, +.docx+, and +.tx+.
       # @param merge_settings [MergeSettings] Merge settings to specify merge 

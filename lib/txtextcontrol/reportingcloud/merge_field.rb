@@ -57,6 +57,9 @@ module TXTextControl
         @text_before = text_before
       end
 
+      # Creates an MergeField instance from a hash.
+      # @param [Hash] hash The hash to try and create an MergeField instance from.
+      # @return [MergeField] A newly created MergeField instance.
       def self.from_camelized_hash(hash) 
         # Parameter validation
         raise ArgumentError, "Parameter must be a Hash." if !hash.kind_of? Hash
