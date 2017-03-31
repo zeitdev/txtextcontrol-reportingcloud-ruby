@@ -332,7 +332,7 @@ module TXTextControl
 
       # Lists all available fonts.
       # @return [Array<String>] An array containing the names of all available fonts.
-      def get_font_list
+      def list_fonts
         res = request("/fonts/list", :get)
         if res.kind_of? Net::HTTPSuccess
           return JSON.parse(res.body)

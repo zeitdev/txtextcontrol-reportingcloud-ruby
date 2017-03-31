@@ -19,9 +19,9 @@ module TXTextControl
     # Represents a merge block in a document template.
     # @attr_reader [String] name The merge block's' name.
     # @attr_reader [Array<MergeBlock>] merge_blocks The merge blocks nested 
-    #   inside of the merge block.
+    #   inside the merge block.
     # @attr_reader [Array<MergeField>] merge_fields The merge fields inside 
-    #   of the merge block.
+    #   the merge block.
     class MergeBlock
       attr_reader :name
       attr_reader :merge_blocks

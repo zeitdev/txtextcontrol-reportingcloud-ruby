@@ -32,7 +32,7 @@ module TXTextControl
 
       # @param template_name [String] The template file name.
       # @param merge_blocks [Array<MergeBlock>] The top level merge blocks in the template.
-      # @param merge_fields [Array<MergeField>] The zop level merge fields in the template.
+      # @param merge_fields [Array<MergeField>] The top level merge fields in the template.
       def initialize(template_name, merge_blocks, merge_fields)
         # Parameter validation
         raise ArgumentError, "Block name must be a string." if !template_name.kind_of? String

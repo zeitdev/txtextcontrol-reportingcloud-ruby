@@ -10,6 +10,7 @@ describe TXTextControl::ReportingCloud::TemplateInfo do
       expect(info.template_name).to eq("invoice.tx")
       expect(info.merge_blocks.length).to eq(1)
       expect(info.merge_blocks[0].name).to eq("Sales_SalesOrderDetail")
+      expect(info.merge_blocks[0].merge_fields.length).to eq(5)
       expect(info.merge_fields.length).to eq(15)
       expect(info.merge_fields[5].name).to eq("Customer_Customer.Sales_CustomerAddress.Person_Address.City")
       expect(info.merge_blocks[0].merge_blocks.length).to eq(0)

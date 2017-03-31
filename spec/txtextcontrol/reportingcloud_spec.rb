@@ -266,9 +266,9 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
     end
   end  
 
-  describe "#get_font_list" do
+  describe "#list_fonts" do
     it "returns an array of strings" do
-      fonts = r.get_font_list
+      fonts = r.list_fonts
       expect(fonts.all? { |font| font.kind_of? String }).to be(true)
     end    
   end  

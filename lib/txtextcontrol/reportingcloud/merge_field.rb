@@ -21,7 +21,7 @@ module TXTextControl
     # @attr_reader [String] numeric_format The format which is applied to
     #   numeric values.
     # @attr_reader [Boolean] preserve_formatting Specifies whether formatting is
-    #   preserverd.
+    #   preserved.
     # @attr_reader [String] text The field text.
     # @attr_reader [String] text_after The text after the field.
     # @attr_reader [String] text_before The text before the field.

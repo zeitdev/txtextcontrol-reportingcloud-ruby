@@ -29,7 +29,6 @@ module TXTextControl
       attr_accessor :merge_settings
       attr_accessor :template
 
-      # Executes a find and replace on a template.
       # @param find_and_replace_data [Array<Array<String>>] The find and replace
       #   pair values as an array of string arrays.
       # @param template [String] The source document encoded as a Base64 string. 
