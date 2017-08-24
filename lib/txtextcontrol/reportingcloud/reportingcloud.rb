@@ -345,7 +345,7 @@ module TXTextControl
       # Checks text for spelling errors.
       # @param text [String] The text to spell check.
       # @param language [String] The language that is used to spell check the 
-      # specified text.
+      #   specified text.
       # @return [Array<IncorrectWord>] An array of incorrect words.
       def check_text(text, language)
         # Parameter validation

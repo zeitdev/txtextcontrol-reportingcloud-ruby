@@ -19,9 +19,9 @@ module TXTextControl
     # @attr_reader [Integer] start The starting position of a spelled word.
     # @attr_reader [String] text The text of the spelled word.
     # @attr_reader [Boolean] is_duplicate Indicating whether the spelled word is
-    # declared as incorrect, because the previous word has the same text.
+    #   declared as incorrect, because the previous word has the same text.
     # @attr_reader [String] language Indicating the language the incorrect word 
-    # was spelled.
+    #   was spelled.
     # @author Thorsten Kummerow (@thomerow)
     class IncorrectWord
       attr_reader :length
@@ -36,9 +36,9 @@ module TXTextControl
       # @param [Integer] start The starting position of a spelled word.
       # @param [String] text The text of the spelled word.
       # @param [Boolean] is_duplicate Indicating whether the spelled word is
-      # declared as incorrect, because the previous word has the same text.
+      #   declared as incorrect, because the previous word has the same text.
       # @param [String] language Indicating the language the incorrect word 
-      # was spelled.
+      #   was spelled.
       def initialize(length, start, text, is_duplicate, language)
         @length = Integer(length)
         @start = Integer(start)
@@ -47,9 +47,9 @@ module TXTextControl
         @language = language
       end
       
-      # Creates an AccountSettings instance from a hash.
-      # @param [Hash] hash The hash to try and create an AccountSettings instance from.
-      # @return [AccountSettings] A newly created AccountSettings instance.
+      # Creates an IncorrectWord instance from a hash.
+      # @param [Hash] hash The hash to try and create an IncorrectWord instance from.
+      # @return [IncorrectWord] A newly created IncorrectWord instance.
       def self.from_camelized_hash(hash)
         l = hash["length"]
         s = hash["start"]
