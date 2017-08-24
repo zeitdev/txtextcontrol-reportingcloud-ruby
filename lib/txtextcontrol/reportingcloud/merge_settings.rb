@@ -23,6 +23,10 @@ module TXTextControl
     #   don't have merge data should be removed from the template or not.
     # @attr remove_trailing_whitespace [Boolean] Specifies whether trailing 
     #   whitespace should be removed before saving a document.
+    # @attr merge_html [Boolean] Specifies whether field data can contain 
+    #   formatted Html content or not. The default value is false. Html 
+    #   content must be enclosed in an <html /> tag element. Only active in 
+    #   the Merge endpoint.
     # @attr author [String] The document's author.
     # @attr creation_date [DateTime] The document's creation date.
     # @attr creator_application [String] The application which created the document.
