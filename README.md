@@ -2,6 +2,8 @@
 
 # ReportingCloud Ruby Wrapper
 
+[![Gem Version](https://badge.fury.io/rb/txtextcontrol-reportingcloud.svg)](https://badge.fury.io/rb/txtextcontrol-reportingcloud)
+
 This is the official Ruby wrapper for ReportingCloud, which is authored, maintained and fully supported by [Text Control](http://www.textcontrol.com).
 
 [http://www.reporting.cloud](http://www.reporting.cloud)
