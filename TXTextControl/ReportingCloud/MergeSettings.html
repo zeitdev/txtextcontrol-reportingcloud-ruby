@@ -298,7 +298,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#merge_html-instance_method" title="#merge_html (instance method)">#<strong>merge_html</strong>  &#x21d2; Object </a>
+      <a href="#merge_html-instance_method" title="#merge_html (instance method)">#<strong>merge_html</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -318,7 +318,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute merge_html.</p>
+<p>Specifies whether field data can contain  formatted Html content or not.</p>
 </div></span>
   
 </li>
@@ -566,10 +566,6 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-52
-53
-54
-55
 56
 57
 58
@@ -580,10 +576,14 @@ names from snake case to camel case.</p>
 63
 64
 65
-66</pre>
+66
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
   <span class='ivar'>@remove_empty_fields</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -656,12 +656,12 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_author'>author</span>
   <span class='ivar'>@author</span>
@@ -717,12 +717,12 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_creation_date'>creation_date</span>
   <span class='ivar'>@creation_date</span>
@@ -778,12 +778,12 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_creator_application'>creator_application</span>
   <span class='ivar'>@creator_application</span>
@@ -839,12 +839,12 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_document_subject'>document_subject</span>
   <span class='ivar'>@document_subject</span>
@@ -900,12 +900,12 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_document_title'>document_title</span>
   <span class='ivar'>@document_title</span>
@@ -961,12 +961,12 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_modification_date'>last_modification_date</span>
   <span class='ivar'>@last_modification_date</span>
@@ -981,7 +981,7 @@ names from snake case to camel case.</p>
       <div class="method_details ">
   <h3 class="signature " id="merge_html-instance_method">
   
-    #<strong>merge_html</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>merge_html</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -994,13 +994,33 @@ names from snake case to camel case.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute merge_html</p>
+<p>Specifies whether field data can contain  formatted Html content or not.
+The default value is false. Html  content must be enclosed in an &lt;html
+/&gt; tag element. Only active in  the Merge endpoint.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the current value of merge_html</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1008,12 +1028,12 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
+38
 39
-40
-41</pre>
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge_html'>merge_html</span>
   <span class='ivar'>@merge_html</span>
@@ -1074,12 +1094,12 @@ the template or not.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_empty_blocks'>remove_empty_blocks</span>
   <span class='ivar'>@remove_empty_blocks</span>
@@ -1139,12 +1159,12 @@ the template or not.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_empty_fields'>remove_empty_fields</span>
   <span class='ivar'>@remove_empty_fields</span>
@@ -1205,12 +1225,12 @@ from the template or not.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_empty_images'>remove_empty_images</span>
   <span class='ivar'>@remove_empty_images</span>
@@ -1271,12 +1291,12 @@ document.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_trailing_whitespace'>remove_trailing_whitespace</span>
   <span class='ivar'>@remove_trailing_whitespace</span>
@@ -1332,12 +1352,12 @@ document.</p>
       <pre class="lines">
 
 
-34
-35
-36</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_password'>user_password</span>
   <span class='ivar'>@user_password</span>
@@ -1399,10 +1419,6 @@ names from snake case to camel case.</p>
       <pre class="lines">
 
 
-103
-104
-105
-106
 107
 108
 109
@@ -1414,10 +1430,14 @@ names from snake case to camel case.</p>
 115
 116
 117
-118</pre>
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/merge_settings.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_camelized_hash'>to_camelized_hash</span>
   <span class='kw'>return</span> <span class='lbrace'>{</span>
@@ -1445,7 +1465,7 @@ names from snake case to camel case.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 24 15:21:28 2017 by
+  Generated on Thu Aug 24 15:28:20 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.3).
 </div>
