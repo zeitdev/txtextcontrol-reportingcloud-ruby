@@ -19,6 +19,7 @@ require "cgi"
 require 'txtextcontrol/reportingcloud/template'
 require 'txtextcontrol/reportingcloud/template_info'
 require 'txtextcontrol/reportingcloud/account_settings'
+require 'txtextcontrol/reportingcloud/incorrect_word'
 require 'txtextcontrol/reportingcloud/find_and_replace_body'
 require 'txtextcontrol/reportingcloud/template_name_validator'
 require 'txtextcontrol/reportingcloud/template_data_validator'
@@ -340,6 +341,81 @@ module TXTextControl
           raise res.body
         end        
       end      
+
+      # Checks text for spelling errors.
+      # @param text [String] The text to spell check.
+      # @param language [String] The language that is used to spell check the 
+      # specified text.
+      # @return [Array<IncorrectWord>] An array of incorrect words.
+      def check_text(text, language)
+        # Parameter validation
+        unless !text.nil? && !text.to_s.empty?
+          raise ArgumentError, "The given text must not be empty."
+        end        
+        unless !language.nil? && !language.to_s.empty?
+          raise ArgumentError, "A language must be defined."
+        end        
+        
+        # Create query parameters
+        params = {
+          :text => text,
+          :language => language
+        }
+
+        res = request("/proofing/check", :get, params)
+        if res.kind_of? Net::HTTPSuccess
+          incorrect_words = Array.new
+          data = JSON.parse(res.body, object_class: OpenStruct)
+          data.each do |elem|
+            incorrect_words.push(IncorrectWord.from_camelized_hash(elem))
+          end          
+          return incorrect_words
+        else
+          raise res.body
+        end          
+      end
+
+      # Returns all available dictionary names.
+      # @return [Array<String>] Available dictionary names.
+      def get_available_dictionaries
+        res = request("/proofing/availabledictionaries", :get)
+        if res.kind_of? Net::HTTPSuccess
+          return JSON.parse(res.body)
+        else
+          raise res.body
+        end                
+      end
+
+      # Returns suggestions for a misspelled word.
+      # @param word [String] The incorrect word that has to be determined for suggestions.
+      # @param language [String] The language that is used to spell check the specified text.
+      # @return [Array<String>] Suggestions for a misspelled word.
+      def get_suggestions(word, language, max)
+        # Parameter validation
+        unless !word.nil? && !word.to_s.empty?
+          raise ArgumentError, "The given text must not be empty."
+        end        
+        unless !language.nil? && !language.to_s.empty?
+          raise ArgumentError, "A language must be defined."
+        end        
+        unless max.is_a? Integer 
+          raise ArgumentError, "max must be an integer"
+        end
+        
+        # Create query parameters
+        params = {
+          :word => word,
+          :language => language,
+          :max => max
+        }
+
+        res = request("/proofing/suggestions", :get, params)
+        if res.kind_of? Net::HTTPSuccess
+          return JSON.parse(res.body)
+        else
+          raise res.body
+        end        
+      end
 
       # Performs a HTTP request of a given type.
       # @param request_type [Symbol] The type of the request. Possible values are +:get+, 

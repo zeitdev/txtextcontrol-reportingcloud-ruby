@@ -36,17 +36,25 @@ module TXTextControl
       attr_accessor :remove_empty_blocks
       attr_accessor :remove_empty_images
       attr_accessor :remove_trailing_whitespace
+      attr_accessor :merge_html
       attr_accessor :author
       attr_accessor :creator_application
       attr_accessor :document_subject
       attr_accessor :document_title
       attr_accessor :user_password
             
+      alias_method :remove_empty_fields?, :remove_empty_fields
+      alias_method :remove_empty_blocks?, :remove_empty_blocks
+      alias_method :remove_empty_images?, :remove_empty_images
+      alias_method :remove_trailing_whitespace?, :remove_trailing_whitespace
+      alias_method :merge_html?, :merge_html
+
       def initialize
         @remove_empty_fields = true
         @remove_empty_blocks = true
         @remove_empty_images = true
         @remove_trailing_whitespace = true
+        @merge_html = false
         
         @author = nil
         @creation_date = nil
@@ -98,6 +106,7 @@ module TXTextControl
           "removeEmptyBlocks" => @remove_empty_blocks,
           "removeEmptyImages" => @remove_empty_images,
           "removeTrailingWhitespace" => @remove_trailing_whitespace,
+          "mergeHtml" => @merge_html,
           "author" => @author,
           "creationDate" => @creation_date.nil? ? nil : @creation_date.iso8601,
           "creatorApplication" => @creator_application,

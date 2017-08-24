@@ -54,5 +54,13 @@ describe TXTextControl::ReportingCloud::MergeSettings do
     it "raises ArgumentError on invalid date time string" do
       expect { @ms.last_modification_date = "sdfsdfsdf" }.to raise_error(ArgumentError)
     end
+
+    it "has default boolean attribute values set" do
+      expect(@ms.remove_empty_fields?).to be(true)
+      expect(@ms.remove_empty_blocks?).to be(true)
+      expect(@ms.remove_empty_images?).to be(true)
+      expect(@ms.remove_trailing_whitespace?).to be(true)
+      expect(@ms.merge_html?).to be(false)
+    end
   end
 end

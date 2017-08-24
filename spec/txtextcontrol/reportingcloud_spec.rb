@@ -269,7 +269,60 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
   describe "#list_fonts" do
     it "returns an array of strings" do
       fonts = r.list_fonts
-      expect(fonts.all? { |font| font.kind_of? String }).to be(true)
+      expect(fonts).to all(be_a(String))
     end    
   end  
+
+  describe "#check_text" do
+    it "returns expected incorrect words" do
+      incorrect_words = r.check_text("Thiss is a testt", "en_US.dic")
+      expect(incorrect_words.length).to be(2)
+      word = incorrect_words[0]
+      expect(word.length).to be(5)
+      expect(word.start).to be(0)
+      expect(word.text).to eq("Thiss")
+      expect(word.is_duplicate?).to be(false)
+      expect(word.language).to eq("en_US.dic")
+      word = incorrect_words[1]
+      expect(word.length).to be(5)
+      expect(word.start).to be(11)
+      expect(word.text).to eq("testt")
+      expect(word.is_duplicate?).to be(false)
+      expect(word.language).to eq("en_US.dic")
+    end
+
+    it "raises ArgumentError" do
+      expect { r.check_text(nil, "en_US.dic") }.to raise_error(ArgumentError)
+      expect { r.check_text("foo bar", nil) }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe "#get_available_dictionaries" do
+    it "returns all available dictionaries" do
+      dictionaries = r.get_available_dictionaries
+      expect(dictionaries).not_to be_empty 
+      expect(dictionaries).to all(be_a(String))
+      expect(dictionaries).to include("en_US.dic", "fr.dic", "en_GB.dic")
+    end
+  end
+
+  describe "#get_suggestions" do
+    it "returns correct suggestions" do
+      sug = r.get_suggestions("Thiss", "en_US.dic", 10)
+      expect(sug).not_to be_empty
+      expect(sug.length).to eq(10)
+      expect(sug).to all(be_a(String))
+      expect(sug[0]).to eq("This")
+      expect(sug[1]).to eq("Hiss")
+      expect(sug[2]).to eq("Thesis")
+    end
+
+    it "raises ArgumentError" do
+      expect { r.get_suggestions() }.to raise_error(ArgumentError)
+      expect { r.get_suggestions(nil, "en_US.dic", 10) }.to raise_error(ArgumentError)
+      expect { r.get_suggestions("Thiss", nil, 10) }.to raise_error(ArgumentError)
+      expect { r.get_suggestions("Thiss", "en_US.dic", "bla") }.to raise_error(ArgumentError)
+      expect { r.get_suggestions("Thiss", "en_US.dic") }.to raise_error(ArgumentError)
+    end
+  end
 end
