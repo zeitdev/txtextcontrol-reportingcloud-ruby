@@ -1985,6 +1985,22 @@ against the quota and created documents contain a watermark.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>max</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The maximum number of suggestions that has to be determined.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -2012,7 +2028,6 @@ against the quota and created documents contain a watermark.</p>
       <pre class="lines">
 
 
-393
 394
 395
 396
@@ -2037,10 +2052,11 @@ against the quota and created documents contain a watermark.</p>
 415
 416
 417
-418</pre>
+418
+419</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/reportingcloud.rb', line 393</span>
+      <pre class="code"><span class="info file"># File 'lib/txtextcontrol/reportingcloud/reportingcloud.rb', line 394</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_suggestions'>get_suggestions</span><span class='lparen'>(</span><span class='id identifier rubyid_word'>word</span><span class='comma'>,</span> <span class='id identifier rubyid_language'>language</span><span class='comma'>,</span> <span class='id identifier rubyid_max'>max</span><span class='rparen'>)</span>
   <span class='comment'># Parameter validation
@@ -3079,7 +3095,7 @@ DOCX, RTF and TX.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 24 15:28:20 2017 by
+  Generated on Thu Aug 24 15:33:47 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.8 (ruby-2.3.3).
 </div>
