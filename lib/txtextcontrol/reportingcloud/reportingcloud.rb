@@ -389,6 +389,7 @@ module TXTextControl
       # Returns suggestions for a misspelled word.
       # @param word [String] The incorrect word that has to be determined for suggestions.
       # @param language [String] The language that is used to spell check the specified text.
+      # @param max [Integer] The maximum number of suggestions that has to be determined.
       # @return [Array<String>] Suggestions for a misspelled word.
       def get_suggestions(word, language, max)
         # Parameter validation
