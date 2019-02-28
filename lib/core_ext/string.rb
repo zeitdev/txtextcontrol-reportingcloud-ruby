@@ -9,7 +9,7 @@
 #
 # License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
 #
-# Copyright: © 2017 Text Control GmbH
+# Copyright: © 2019 Text Control GmbH
 
 # Extensions to class String.
 # @author Thorsten Kummerow (@thomerow)

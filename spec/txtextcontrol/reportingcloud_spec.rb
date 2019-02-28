@@ -2,6 +2,9 @@ require 'spec_helper'
 require 'base64'
 require "txtextcontrol/reportingcloud/merge_body"
 require "txtextcontrol/reportingcloud/find_and_replace_body"
+require "txtextcontrol/reportingcloud/append_body"
+
+$api_key = ""
 
 describe TXTextControl::ReportingCloud do  
   it 'has a version number' do
@@ -10,7 +13,7 @@ describe TXTextControl::ReportingCloud do
 end
   
 describe TXTextControl::ReportingCloud::ReportingCloud do
-  let (:r) { TXTextControl::ReportingCloud::ReportingCloud.new("<USERNAME>", "<PASSWORD>") }
+  let(:r) { TXTextControl::ReportingCloud::ReportingCloud.new("<USERNAME>", "<PASSWORD>") }
   let(:template_data) { File.open(File.dirname(__FILE__) + "/../support/fixtures/__ruby_wrapper_test.tx", "rb") { |f| f.read } }
   let(:template_data_B64) { Base64.strict_encode64(template_data) }
       
@@ -61,6 +64,14 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
     end
   end
 
+  def is_png(data) 
+    return data[0].ord == 0x89 &&
+      data[1].ord == 0x50 &&
+      data[2].ord == 0x4E &&
+      data[3].ord == 0x47 &&
+      data[4].ord == 0x0D
+  end
+
   describe "#get_template_thumbnails" do  
     it "returns two images" do
       canned_response = File.new File.dirname(__FILE__) + '/../support/fixtures/get_template_thumbnails.json'
@@ -74,17 +85,15 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       WebMock.allow_net_connect!
       thumbnails = r.get_template_thumbnails("sample_invoice.tx", 25, 1, 0)
       data = Base64.strict_decode64(thumbnails[0]);
+
       # Check for PNG magic number
-      expect(data[0].ord).to be(0x89)
-      expect(data[1].ord).to be(0x50)
-      expect(data[2].ord).to be(0x4E)
-      expect(data[3].ord).to be(0x47)
-      expect(data[4].ord).to be(0x0D)
+      expect(is_png(data)).to be(true)
     end
     
     it "returns jpg images" do
       thumbnails = r.get_template_thumbnails("sample_invoice.tx", 25, 1, 0, :jpg)
       data = Base64.strict_decode64(thumbnails[0])
+
       # Check for JPG magic number
       expect(data[0].ord).to be(0xFF)
       expect(data[1].ord).to be(0xD8)
@@ -142,10 +151,63 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       data = Base64.strict_decode64(merge_res[0])
       
       # Check for PDF magic number
-      expect(data[0].ord).to be(0x25)
-      expect(data[1].ord).to be(0x50)
-      expect(data[2].ord).to be(0x44)
-      expect(data[3].ord).to be(0x46)
+      expect(is_pdf(data)).to be(true)
+    end
+  end
+
+  describe "#append_documents" do
+    it "appends documents" do 
+      documents = [
+        TXTextControl::ReportingCloud::AppendDocument.new(template_data_B64),
+        TXTextControl::ReportingCloud::AppendDocument.new(template_data_B64, :new_section)
+      ]
+
+      ds = TXTextControl::ReportingCloud::DocumentSettings.new
+      ds.author = "John Doe"
+      ds.creator_application = "That App™"
+
+      ab = TXTextControl::ReportingCloud::AppendBody.new(documents, ds)
+
+      # Append the documents
+      res = r.append_documents(ab)
+      expect(res).not_to be(nil)
+      expect(res).to be_a(String)
+      data = Base64.strict_decode64(res)
+
+      expect(data.length).to be(18789)
+
+      # Check for PDF magic number
+      expect(is_pdf(data)).to be(true)
+    end    
+  end
+
+  describe "#get_api_keys" do
+    it "returns all API keys" do
+      keys = r.get_api_keys
+      expect(keys.length).to be(2)
+      keys.each do |key| 
+        expect(key.key).to match(/[a-zA-Z0-9]*/)
+      end
+    end    
+  end
+
+  describe "#create_api_key" do
+    it "creates an API key" do
+      $api_key = r.create_api_key
+      expect($api_key).to match(/[a-zA-Z0-9]*/)
+      keys = r.get_api_keys
+      expect(keys.length).to be(3)
+      expect(keys.any? { |k| k.key == $api_key }).to be(true)
+    end
+  end
+
+  describe "#delete_api_key" do
+    it "deletes an API key" do
+      expect($api_key).not_to be_empty
+      r.delete_api_key($api_key)
+      keys = r.get_api_keys
+      expect(keys.length).to be(2)
+      expect(keys.any? { |k| k.key == $api_key }).to be(false)
     end
   end
 
@@ -192,16 +254,30 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
     end
   end
 
+  def is_pdf(data)
+    # Check for PDF magic number
+    return data[0].ord == 0x25 &&
+      data[1].ord == 0x50 &&
+      data[2].ord == 0x44 &&
+      data[3].ord == 0x46
+  end
+
+  def is_doc(data)
+    return data[0].ord == 0xD0 &&
+      data[1].ord == 0xCF &&
+      data[2].ord == 0x11 &&
+      data[3].ord == 0xE0 &&
+      data[4].ord == 0xA1 &&
+      data[5].ord == 0xB1 &&
+      data[6].ord == 0x1A &&
+      data[7].ord == 0xE1
+  end
+
   describe "#convert_document" do
     it "converts the document to pdf" do
       dataB64 = r.convert_document(template_data_B64)
       data = Base64.strict_decode64(dataB64)
-      
-      # Check for PDF magic number
-      expect(data[0].ord).to be(0x25)
-      expect(data[1].ord).to be(0x50)
-      expect(data[2].ord).to be(0x44)
-      expect(data[3].ord).to be(0x46)
+      expect(is_pdf(data)).to be(true)
     end
     
     it "converts the document to doc" do
@@ -209,14 +285,7 @@ describe TXTextControl::ReportingCloud::ReportingCloud do
       data = Base64.strict_decode64(dataB64)
       
       # Check for DOC magic number
-      expect(data[0].ord).to be(0xD0)
-      expect(data[1].ord).to be(0xCF)
-      expect(data[2].ord).to be(0x11)
-      expect(data[3].ord).to be(0xE0)
-      expect(data[4].ord).to be(0xA1)
-      expect(data[5].ord).to be(0xB1)
-      expect(data[6].ord).to be(0x1A)
-      expect(data[7].ord).to be(0xE1)
+      expect(is_doc(data)).to be(true)
     end
   end
 

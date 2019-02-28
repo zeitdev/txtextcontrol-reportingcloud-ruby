@@ -9,10 +9,10 @@
 #
 # License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
 #
-# Copyright: © 2017 Text Control GmbH
+# Copyright: © 2019 Text Control GmbH
 
 module TXTextControl
   module ReportingCloud
-    VERSION = "1.1.1"
+    VERSION = "1.2.0"
   end
 end

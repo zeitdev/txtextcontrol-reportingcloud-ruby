@@ -9,7 +9,7 @@
 #
 # License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
 #
-# Copyright: © 2017 Text Control GmbH
+# Copyright: © 2019 Text Control GmbH
 
 require "uri"
 require "net/http"
@@ -23,6 +23,8 @@ require 'txtextcontrol/reportingcloud/incorrect_word'
 require 'txtextcontrol/reportingcloud/find_and_replace_body'
 require 'txtextcontrol/reportingcloud/template_name_validator'
 require 'txtextcontrol/reportingcloud/template_data_validator'
+require 'txtextcontrol/reportingcloud/api_key'
+require 'txtextcontrol/reportingcloud/append_body'
 require 'core_ext/string'
 
 module TXTextControl
@@ -125,6 +127,34 @@ module TXTextControl
         end        
       end
       
+      # Combines documents by appending them divided by a new section, paragraph or nothing.
+      # @param append_body [TXTextControl::ReportingCloud::AppendBody] The AppendBody object 
+      #   contains the templates and a DocumentSettings object.
+      # @param return_format [Symbol] The format of the created document. Possible 
+      #   values are +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
+      # @param test [Boolean] Specifies whether it is a test run or not. A test run is 
+      #   not counted against the quota and created documents contain a watermark.
+      # @return [String] The resulting document as a Base64 string.
+      def append_documents(append_body, return_format = :pdf, test = false)
+        unless append_body.is_a?(TXTextControl::ReportingCloud::AppendBody)
+          raise ArgumentError, "append_body must be an AppendBody instance."
+        end
+
+        # Create query parameters
+        params = {
+          :returnFormat => return_format,
+          :test => test
+        }
+
+        # Send request
+        res = request("/document/append", :post, params, append_body)
+        if res.kind_of? Net::HTTPSuccess
+          return res.body.remove_first_and_last
+        else
+          raise res.body 
+        end        
+      end
+
       # Returns the account settings.
       # @return [AccountSettings] The account settings.
       def get_account_settings
@@ -132,7 +162,7 @@ module TXTextControl
         if res.kind_of? Net::HTTPSuccess
           return AccountSettings.from_camelized_hash(JSON.parse(res.body))
         else
-          raise res.body 
+          raise res.body
         end
       end      
       
@@ -418,6 +448,50 @@ module TXTextControl
         end        
       end
 
+      # Creates and returns a new API key.
+      # @return [String] The new API key.
+      def create_api_key
+        res = request("/account/apikey", :put)
+        if res.kind_of? Net::HTTPSuccess
+          return res.body.remove_first_and_last
+        else
+          raise res.body 
+        end                
+      end
+
+      # Deletes a given API Key from the account.
+      # @param key [String] The key to delete from the account.
+      def delete_api_key(key)
+        # Parameter validation
+        unless !key.nil? && !key.to_s.empty?
+          raise ArgumentError, "The given key must not be empty."
+        end        
+
+        # Create query parameters
+        params = {
+          :key => key
+        }
+
+        res = request("/account/apikey", :delete, params)
+        raise res.body unless res.kind_of? Net::HTTPSuccess
+      end
+
+      # Returns all available API Keys of the current account.
+      # @return [Array<String>] All available API Keys of the current account.
+      def get_api_keys 
+        res = request("/account/apikeys", :get)
+        if res.kind_of? Net::HTTPSuccess
+          keys = Array.new
+          data = JSON.parse(res.body, object_class: OpenStruct)
+          data.each do |elem|
+            keys.push(APIKey.new(elem.key, elem.active))
+          end
+          return keys
+        else
+          raise res.body
+        end        
+      end
+
       # Performs a HTTP request of a given type.
       # @param request_type [Symbol] The type of the request. Possible values are +:get+, 
       # +:post+ and +:delete+.
@@ -442,6 +516,8 @@ module TXTextControl
             req_type = Net::HTTP::Post
           when :delete 
             req_type = Net::HTTP::Delete
+          when :put
+            req_type = Net::HTTP::Put
           else raise "Unknown HTTP request type."
         end 
         

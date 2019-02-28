@@ -2,65 +2,22 @@ require 'spec_helper'
 require "txtextcontrol/reportingcloud/merge_settings"
 
 describe TXTextControl::ReportingCloud::MergeSettings do
-  describe "#creation_date" do
+
+  describe "#to_camlized_hash" do
     before do
       @ms = TXTextControl::ReportingCloud::MergeSettings.new
     end
-    
-    it "accepts an iso 8601 date time string" do
-      str = "2016-05-30T12:07:45+00:00"
-      expect { @ms.creation_date = str }.not_to raise_error
-      expect(@ms.creation_date).to eq(DateTime.iso8601(str))
-    end
-    
-    it "accepts nil" do
-      expect { @ms.creation_date = nil }.not_to raise_error
-      expect(@ms.creation_date).to be(nil)
-    end
-    
-    it "accepts a DateTime instance" do
-      dt = DateTime.iso8601("2016-05-30T12:07:45+00:00")
-      expect { @ms.creation_date = dt }.not_to raise_error
-      expect(@ms.creation_date).to eq(dt)
-    end
-    
-    it "raises ArgumentError on invalid date time string" do
-      expect { @ms.creation_date = "sdfsdfsdf" }.to raise_error(ArgumentError)
+
+    it "includes super class properties" do      
+      converted = @ms.to_camelized_hash
+      expect(converted).to include("author")
+      expect(converted).to include("creationDate")
+      expect(converted).to include("creatorApplication")
+      expect(converted).to include("documentSubject")
+      expect(converted).to include("documentTitle")
+      expect(converted).to include("lastModificationDate")
+      expect(converted).to include("userPassword")
     end
   end
 
-  describe "#last_modification_date" do
-    before do
-      @ms = TXTextControl::ReportingCloud::MergeSettings.new
-    end
-    
-    it "accepts an iso 8601 date time string" do
-      str = "2016-05-30T12:07:45+00:00"
-      expect { @ms.last_modification_date = str }.not_to raise_error
-      expect(@ms.last_modification_date).to eq(DateTime.iso8601(str))
-    end
-    
-    it "accepts nil" do
-      expect { @ms.last_modification_date = nil }.not_to raise_error
-      expect(@ms.last_modification_date).to be(nil)
-    end
-    
-    it "accepts a DateTime instance" do
-      dt = DateTime.iso8601("2016-05-30T12:07:45+00:00")
-      expect { @ms.last_modification_date = dt }.not_to raise_error
-      expect(@ms.last_modification_date).to eq(dt)
-    end
-    
-    it "raises ArgumentError on invalid date time string" do
-      expect { @ms.last_modification_date = "sdfsdfsdf" }.to raise_error(ArgumentError)
-    end
-
-    it "has default boolean attribute values set" do
-      expect(@ms.remove_empty_fields?).to be(true)
-      expect(@ms.remove_empty_blocks?).to be(true)
-      expect(@ms.remove_empty_images?).to be(true)
-      expect(@ms.remove_trailing_whitespace?).to be(true)
-      expect(@ms.merge_html?).to be(false)
-    end
-  end
 end

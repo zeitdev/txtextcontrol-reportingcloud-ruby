@@ -9,14 +9,14 @@
 #
 # License: https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/LICENSE.md
 #
-# Copyright: © 2017 Text Control GmbH
+# Copyright: © 2019 Text Control GmbH
 
 require "txtextcontrol/reportingcloud/merge_settings"
 
 module TXTextControl
   module ReportingCloud
   
-    # Used to pass data to the merge method.
+    # Passes data to the {ReportingCloud.merge_document} method.
     # @attr merge_data [Array<Hash>] The merge data. Must be an array of hashes.
     # @attr template [String] Base64 encoded template document.
     #   Supported formats are RTF, DOC, DOCX and TX. 
@@ -59,7 +59,7 @@ module TXTextControl
         return {
           "mergeData" => @merge_data,
           "template" => @template,
-          "mergeSettings" => @merge_settings.nil? ? nil : merge_settings.to_camelized_hash
+          "mergeSettings" => @merge_settings.nil? ? nil : @merge_settings.to_camelized_hash
         }
       end
     end
