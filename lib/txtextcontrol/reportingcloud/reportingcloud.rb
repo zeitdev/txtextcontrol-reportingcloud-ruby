@@ -1,7 +1,7 @@
-# ReportingCloud Ruby Wrapper
+# ReportingCloud Ruby SDK
 #
-# Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access 
-# ReportingCloud in Ruby.
+# Official Ruby SDK for the ReportingCloud Web API. Authored, maintained and fully supported 
+# by Text Control GmbH. (http://www.textcontrol.com).
 #
 # Go to http://www.reporting.cloud to learn more about ReportingCloud
 # Go to https://github.com/TextControl/txtextcontrol-reportingcloud-ruby for the 
@@ -30,7 +30,7 @@ require 'core_ext/string'
 module TXTextControl
   module ReportingCloud
   
-    # The main wrapper class.
+    # The main class.
     # @attr username [String] The user name.
     # @attr password [String] The password.
     # @attr base_uri [String] The API base url. Is set to "+https://api.reporting.cloud+" 
@@ -89,7 +89,7 @@ module TXTextControl
       # Merges and returns a template from the template storage or an 
       # uploaded template with JSON data.
       # @param return_format [Symbol] The format of the created document. Possible 
-      #   values are +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
+      #   values are +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+, +:tx+ and +:txt+.
       # @param merge_body [MergeBody] The MergeBody object contains the datasource 
       #   as a JSON data object and optionally, a template encoded as a Base64 string.
       # @param template_name [String] The name of the template in the template storage. 
@@ -131,7 +131,7 @@ module TXTextControl
       # @param append_body [TXTextControl::ReportingCloud::AppendBody] The AppendBody object 
       #   contains the templates and a DocumentSettings object.
       # @param return_format [Symbol] The format of the created document. Possible 
-      #   values are +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
+      #   values are +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+, +:tx+ and +:txt+.
       # @param test [Boolean] Specifies whether it is a test run or not. A test run is 
       #   not counted against the quota and created documents contain a watermark.
       # @return [String] The resulting document as a Base64 string.
@@ -285,7 +285,7 @@ module TXTextControl
       # @param template_data [String] The source document encoded as a Base64 string. 
       #   The supported document formats are +.rtf+, +.doc+, +.docx+, +.html+, +.pdf+ and +.tx+.
       # @param return_format [Symbol] The format of the created document.
-      #   Possible values are: +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
+      #   Possible values are: +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+, +:tx+ and +:txt+.
       # @param test [Boolean]  Specifies whether it is a test run or not. A test run is not 
       #   counted against the quota and created documents contain a watermark.
       # @return [String] The created document encoded as a Base64 string.
@@ -331,7 +331,7 @@ module TXTextControl
       #   If no template is specified, the template must be included in the FindAndReplaceBody 
       #   object of this request.
       # @param return_format [Symbol] The format of the created document.
-      #   Possible values are: +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+ and +:tx+.
+      #   Possible values are: +:pdf+, +:rtf+, +:doc+, +:docx+, +:html+, +:tx+ and +:txt+.
       # @param test [Boolean]  Specifies whether it is a test run or not. A test run is not 
       #   counted against the quota and created documents contain a watermark.
       # @return [String] The created document encoded as a Base64 string.

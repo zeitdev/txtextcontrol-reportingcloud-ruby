@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Thorsten Kummerow"]
   spec.email         = ["thorsten@textcontrol.com"]
 
-  spec.summary       = "ReportingCloud Ruby Wrapper"
-  spec.description   = "Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access ReportingCloud in Ruby."
+  spec.summary       = "ReportingCloud Ruby SDK"
+  spec.description   = "Official Ruby SDK for the ReportingCloud Web API. Authored and supported by Text Control GmbH."
   spec.homepage      = "http://www.reporting.cloud"
   spec.licenses      = ["BSD-2-Clause"]
 

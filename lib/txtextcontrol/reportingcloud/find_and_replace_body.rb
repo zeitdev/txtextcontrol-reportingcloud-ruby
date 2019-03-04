@@ -1,7 +1,7 @@
-# ReportingCloud Ruby Wrapper
+# ReportingCloud Ruby SDK
 #
-# Official wrapper (authored by Text Control GmbH, publisher of ReportingCloud) to access 
-# ReportingCloud in Ruby.
+# Official Ruby SDK for the ReportingCloud Web API. Authored, maintained and fully supported 
+# by Text Control GmbH. (http://www.textcontrol.com).
 #
 # Go to http://www.reporting.cloud to learn more about ReportingCloud
 # Go to https://github.com/TextControl/txtextcontrol-reportingcloud-ruby for the 

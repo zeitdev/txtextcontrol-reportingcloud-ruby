@@ -1,10 +1,10 @@
 ![Logo](https://raw.githubusercontent.com/TextControl/txtextcontrol-reportingcloud-ruby/master/resource/rc_logo_512.png)
 
-# ReportingCloud Ruby Wrapper
+# ReportingCloud Ruby SDK
 
 [![Gem Version](https://badge.fury.io/rb/txtextcontrol-reportingcloud.svg)](https://badge.fury.io/rb/txtextcontrol-reportingcloud)
 
-This is the official Ruby wrapper for ReportingCloud, which is authored, maintained and fully supported by [Text Control](http://www.textcontrol.com).
+This is the official Ruby SDK for the ReportingCloud Web API. It is authored, maintained and fully supported by [Text Control](http://www.textcontrol.com).
 
 [http://www.reporting.cloud](http://www.reporting.cloud)
 
