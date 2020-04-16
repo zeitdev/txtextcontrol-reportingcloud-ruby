@@ -36,7 +36,8 @@ module TXTextControl
       attr_accessor :remove_empty_images
       attr_accessor :remove_trailing_whitespace
       attr_accessor :merge_html
-            
+      attr_accessor :culture
+
       alias_method :remove_empty_fields?, :remove_empty_fields
       alias_method :remove_empty_blocks?, :remove_empty_blocks
       alias_method :remove_empty_images?, :remove_empty_images
@@ -49,8 +50,8 @@ module TXTextControl
         @remove_empty_images = true
         @remove_trailing_whitespace = true
         @merge_html = false
-      end 
-            
+      end
+
       # Converts a MergeSettings instance to a hash while converting the attribute names
       # from snake case to camel case.
       # @return [Hash] A hash representing the MergeSettings instance.
@@ -61,6 +62,7 @@ module TXTextControl
           "removeEmptyImages" => @remove_empty_images,
           "removeTrailingWhitespace" => @remove_trailing_whitespace,
           "mergeHtml" => @merge_html,
+          "culture" => @culture
         }
         result.merge(super)
       end
